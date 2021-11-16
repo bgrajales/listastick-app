@@ -1,0 +1,17 @@
+.app__body {
+    margin-left: 80px;
+}
+
+.app__taskSection {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+}
+
+.app__pointer {
+    &:hover {
+        cursor: pointer;
+    }
+}

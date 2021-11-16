@@ -1,0 +1,77 @@
+.btn-link {
+    color: $theme-text-color;
+    text-decoration: none;
+}
+
+.landing__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.landing__header-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.landing__section1, .landing__section2 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 60px;
+    justify-items: center;
+    text-align: center;
+}
+
+.landing__section3 {
+    display: flex;
+}
+
+.landing__section4 {
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    text-align: center;
+}
+
+.landing__title {
+    font-size: 3.5rem;
+    font-weight: 400;
+}
+
+.landing__text {
+    font-size: 1.5rem;
+}
+
+.landing__title-btn {
+    width: 60%;
+}
+
+.landing__section {
+    margin-bottom: 80px;
+}
+
+.landing__devices-img, .landing__imgReview {
+    width: 100%;
+}
+
+.landing__finalImage {
+    width: 500px;
+}
+
+.landing__footer {
+    background-color: $navBar-color;
+    width: 100%;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.landing__socialDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}

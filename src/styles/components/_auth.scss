@@ -1,0 +1,54 @@
+.form-control {
+    margin-bottom: 20px;
+}
+
+.auth__main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+}
+
+.auth_sub-div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 30px;
+}
+
+.auth__imageDiv {
+    text-align: center;
+}
+
+.auth__image {
+    width: 100%;
+}
+
+.auth__formDiv {
+    flex: 1;
+    padding: 40px 50px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.auth__topTextDiv {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.auth__goBackArrow {
+    height: 25px;
+}
+
+.auth__authLogo {
+    width: 60px;
+}
+
+.auth__dontHaveDiv {
+    text-align: center;
+    margin-top: 25px;
+}

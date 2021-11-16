@@ -1,0 +1,87 @@
+.nav__desktopNavBar {
+    height: 100%;
+    width: 80px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: $navBar-color;
+    overflow-x: hidden;
+    padding: 50px 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav__desktopBtns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav__iconAndText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.nav__BtnIcon {
+    width: 30px;
+}
+
+.nav__pfp {
+    width: 60px;
+}
+
+.nav__modal {
+    position: fixed;
+    background-color: $navExtension-color;
+    z-index: 10;
+    top: 0;
+    left: 80px;
+    bottom: 0;
+    padding: 60px 60px !important;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow: scroll;
+    justify-content: center;
+}
+
+.nav__expandedAddTask {
+    background-color: $navBar-color;
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+.nav__closeModal {
+    width: 15px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.nav__modalInput {
+    margin-bottom: 0;
+}
+
+.nav__expandedListBkg {
+    height: 100%;
+    overflow: scroll;
+    background-color: $card-color;
+    border-radius: 10px;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}

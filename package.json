@@ -1,14 +1,21 @@
 {
   "name": "listastick-app",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "animate.css": "^4.1.1",
+    "date-fns": "^2.25.0",
+    "faker": "^5.5.3",
+    "font-awesome": "^4.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
+    "sass": "^1.43.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
