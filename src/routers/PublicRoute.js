@@ -4,7 +4,6 @@ export const PublicRoute = ({ children }) => {
 
     const token = localStorage.getItem('token');
 
-    console.log(!!token)
     return !!token
         ? <Navigate to="/app/home" />
         : children

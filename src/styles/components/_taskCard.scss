@@ -2,12 +2,21 @@
     background-color: $card-color;
     display: flex;
     position: relative;
-    padding: 15px 20px;
+    padding: 5px 5px;
     border-radius: 10px;
     transition: transform 0.2s;
+    box-shadow: 0px 0px 20px 0px rgb(0 0 0 / 15%);
 
     h1 {
         font-size: 2rem;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    h4 {
+        margin-bottom: 0;
     }
 
     &:hover {
@@ -24,7 +33,7 @@
     align-items: center;
     color: #fff;
     font-weight: bold;
-    margin: -15px 20px -15px -20px;
+    margin: -5px 15px -5px -5px;
     padding: 20px 15px;
     border-radius: 10px 0 0 10px;
     background-color: $primary-color; //Temporary background-color
@@ -42,6 +51,10 @@
 
 .taskCard__completed {
     background-color: $primary-color;
+}
+
+.taskCard__completedTitle {
+    text-decoration: line-through;
 }
 
 .taskCard__hoverDiv {

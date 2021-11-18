@@ -1,18 +1,20 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { todosReducer } from '../../reducers/todosReducer'
-import { AuthContext } from '../../routers/AppRouter'
+import { useSearchParams } from 'react-router-dom'
 import { apiUrl } from '../../utils/apiUrl'
 
+import { AuthContext } from '../../routers/AppRouter'
+import { todosReducer } from '../../reducers/todosReducer'
 import { SearchBar } from '../appComponents/SearchBar'
 import { TaskCard } from '../appComponents/TaskCard'
+import { Pagination } from '../appComponents/uiElements/Pagination'
 
 export const TodoContext = createContext()
 
-// const filters = Object.freeze({
-//     ALL: 'ALL',
-//     DAY: 'DAY',
-//     HIGH_PRIORITY: 'HIGH_PRIORITY',
-// })
+const filters = Object.freeze({
+    ALL: 'ALL',
+    DAY: 'DAY',
+    BY_DATE: 'BY_DATE',
+})
 
 const initialState = {
     todos: [],
@@ -24,6 +26,13 @@ export const HomeScreen = () => {
 
     const { state: authState } = useContext(AuthContext)
     const [ state, dispatch ] = useReducer(todosReducer, initialState)
+    
+    const [ searchParams ] = useSearchParams();
+    
+    const page = searchParams.get('page') || 1
+    const filter = searchParams.get('filter') || filters.ALL
+    const order = searchParams.get('order')
+    const completed = searchParams.get('completed') || 'true'
 
     useEffect(() => {
         if (authState.token) {
@@ -31,10 +40,14 @@ export const HomeScreen = () => {
                 type: 'FETCH_TODOS_REQUEST',
             })
 
-            fetch(apiUrl('todos'), {
+            fetch(apiUrl(`todos?page=${page}&filter=${filter}&order=${order}&completed=${completed}`), {
+                method: 'GET',
                 headers: {
                     'Authorization': authState.token,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                },
+                query: {
+                    page: 3
                 }
             }).then(res => {
                 if(res.ok) {
@@ -55,7 +68,9 @@ export const HomeScreen = () => {
                 })
             })
         }
-    }, [authState.token])
+    }, [authState.token, page, filter, order, completed])
+
+    
 
     return (
         <div className="app__body">
@@ -69,6 +84,8 @@ export const HomeScreen = () => {
                             ))
                     }
                 </div>
+
+                <Pagination />
             </div>
         </div>
     )
