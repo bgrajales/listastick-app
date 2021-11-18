@@ -5,18 +5,15 @@ import {
     Route
 } from "react-router-dom";
 
-import { HomeScreen } from '../components/app/HomeScreen';
-import { StatsScreen } from '../components/app/StatsScreen';
-import { LoginScreen } from '../components/auth/LoginScreen';
-import { RegisterScreen } from '../components/auth/RegisterScreen';
-import { LandingScreen } from '../components/landing/LandingScreen';
 import { loginReducer } from '../reducers/loginReducer';
+import { AuthRouter } from './AuthRouter';
 import { DashboardRouter } from './DashboardRouter';
+import { PrivateRoute } from './PrivateRoute';
+import { PublicRoute } from './PublicRoute';
 
 const initialState = {
     isAuthenticated: false,
     user: null,
-    role: null,
     token: null
 }
 
@@ -29,7 +26,6 @@ export const AppRouter = () => {
     useEffect(() => {
         
         const user = JSON.parse(localStorage.getItem('user'));
-        const role = localStorage.getItem('role')
         const token = localStorage.getItem('token')
         
         if (user && token) {
@@ -37,7 +33,6 @@ export const AppRouter = () => {
                 type: 'LOGIN',
                 payload: {
                     user,
-                    role,
                     token
                 }
             })
@@ -49,14 +44,27 @@ export const AppRouter = () => {
             <Router>
                 <div>
                     <Routes>
-                        <Route index element={<LandingScreen />} />
 
-                        <Route path="/auth">
+                        <Route path="/*" element={
+                            <PublicRoute>
+                                <AuthRouter />
+                            </PublicRoute>
+                        }/>
+
+                        <Route path="/app/*" element={
+                            <PrivateRoute>
+                                <DashboardRouter />
+                            </PrivateRoute>
+                        }/>
+                        
+                        {/* <Route index element={<LandingScreen />} /> */}
+
+                        {/* <Route path="/auth">
                             <Route path="login" element={<LoginScreen />} />
                             <Route path="register" element={<RegisterScreen />} />
-                        </Route>
+                        </Route> */}
 
-                        <Route path="/app/*" element={ <DashboardRouter /> } />
+                        {/* <Route path="/app/*" element={ <DashboardRouter /> } /> */}
                         
                     </Routes>
                 </div>

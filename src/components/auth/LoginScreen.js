@@ -50,6 +50,7 @@ export const LoginScreen = () => {
             } 
             
             throw res
+            
         }).then(data => {
             dispatch({
                 type: 'LOGIN',
