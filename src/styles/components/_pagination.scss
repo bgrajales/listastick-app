@@ -17,7 +17,7 @@
     div {
         font-weight: bold;
         font-size: 1.5rem;
-        color: $secondaryBtn-color;
+        color: var(--secondaryBtn-color);
         user-select: none;
         -moz-user-select: none;
         -khtml-user-select: none;
@@ -33,8 +33,8 @@
 
         &:hover {
             cursor: pointer;
-            background-color: $theme-text-color;
-            color: $theme-background-color;
+            background-color: var(--theme-text-color);
+            color: var(--theme-background-color);
             border-radius: 100%;
         }
     }

@@ -6,7 +6,7 @@ import { useForm } from '../../../hooks/useForm'
 import { AuthContext } from '../../../routers/AppRouter'
 import { apiUrl } from '../../../utils/apiUrl'
 
-export const AddNewTask = ({ show }) => {
+export const AddNewTask = ({ show, setModal }) => {
 
   const { state: authState } = useContext(AuthContext)
 
@@ -57,11 +57,17 @@ export const AddNewTask = ({ show }) => {
       })
     }
 
+    const handleCloseClick = () => {
+      setModal('none')
+    }
+
+    
     return (
         <div className={`nav__modal animate__animated animate__slideInLeft ${(!show) ? 'd-none' : ''}`}>
+            <IoMdClose className="nav__closeModal" onClick={ handleCloseClick }/>
+            
             <form className="nav__expandedAddTask" onSubmit={ handleAddNewSubmit }>
 
-              <IoMdClose className="nav__closeModal"/>
 
               <div className="smallInputDiv">
                 <label className="form-label">Task title</label>
@@ -82,9 +88,11 @@ export const AddNewTask = ({ show }) => {
                 <input className="form-control nav__modalInput" type="date" name="dueDate" onChange={ handleInputChange } value={ formValues.dueDate }/>
               </div>
 
-              <label className="form-label">Description</label>
-              <textarea className="form-control nav__modalInput" name="description" onChange={ handleInputChange } value={ formValues.description }/>
-
+              <div className="smallInputDiv">
+                <label className="form-label">Description</label>
+                <textarea className="form-control nav__modalInput" name="description" onChange={ handleInputChange } value={ formValues.description }/>
+              </div>
+              
               <div id="taskAddBtnSec">
                 <button type="submit" className="btn btn-primary btn-block">Add Task</button>
               </div>

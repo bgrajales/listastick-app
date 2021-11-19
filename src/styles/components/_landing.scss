@@ -1,5 +1,5 @@
 .btn-link {
-    color: $theme-text-color;
+    color: var(--theme-text-color);
     text-decoration: none;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .landing__footer {
-    background-color: $navBar-color;
+    background-color: var(--navBar-color);
     width: 100%;
     padding: 50px;
     display: flex;

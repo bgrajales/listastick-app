@@ -45,9 +45,6 @@ export const HomeScreen = () => {
                 headers: {
                     'Authorization': authState.token,
                     'Content-Type': 'application/json',
-                },
-                query: {
-                    page: 3
                 }
             }).then(res => {
                 if(res.ok) {
@@ -70,7 +67,6 @@ export const HomeScreen = () => {
         }
     }, [authState.token, page, filter, order, completed])
 
-    
 
     return (
         <div className="app__body">

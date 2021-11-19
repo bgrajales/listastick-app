@@ -14,6 +14,11 @@
     @include hideScrollbar
 }
 
+body {
+    background-color: var(--theme-background-color);
+    color: var(--theme-text-color);
+}
+
 .flex-1 {
     flex: 1;
 }
@@ -22,7 +27,6 @@
     width: 100%;
 }
 
-.btn-primary {
-    background-color: $secondaryBtn-color;
-    border: none;
+.tooltip.show {
+    opacity: 1;
 }

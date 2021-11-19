@@ -1,5 +1,5 @@
 .taskCard__card {
-    background-color: $card-color;
+    background-color: var(--card-color);
     display: flex;
     position: relative;
     padding: 5px 5px;
@@ -21,7 +21,7 @@
 
     &:hover {
         transform: scale(1.07);
-        z-index: 5
+        z-index: 1
     }
 }
 
@@ -31,12 +31,11 @@
     flex: 1;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: var(--white-text);
     font-weight: bold;
     margin: -5px 15px -5px -5px;
     padding: 20px 15px;
     border-radius: 10px 0 0 10px;
-    background-color: $primary-color; //Temporary background-color
 }
 
 .taskCard__low {
@@ -50,7 +49,7 @@
 }
 
 .taskCard__completed {
-    background-color: $primary-color;
+    background-color: var(--primary-color);
 }
 
 .taskCard__completedTitle {
@@ -71,8 +70,8 @@
     height: 40px;
     padding: 10%;
     border-radius: 100%;
-    background-color: $primary-color;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--card-color);
 }
 
 .taskCard__viewTodos {
@@ -80,8 +79,8 @@
     height: 40px;
     padding: 10%;
     border-radius: 100%;
-    background-color: $primary-color;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--card-color);
 }
 
 .taskCard__trashCan {
