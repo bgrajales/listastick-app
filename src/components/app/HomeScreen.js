@@ -26,14 +26,13 @@ export const HomeScreen = () => {
 
     const { state: authState } = useContext(AuthContext)
     const [ state, dispatch ] = useReducer(todosReducer, initialState)
-    
     const [ searchParams ] = useSearchParams();
     
     const page = searchParams.get('page') || 1
     const filter = searchParams.get('filter') || filters.ALL
     const order = searchParams.get('order')
     const completed = searchParams.get('completed') || 'true'
-
+    
     useEffect(() => {
         if (authState.token) {
             dispatch({
@@ -67,7 +66,6 @@ export const HomeScreen = () => {
         }
     }, [authState.token, page, filter, order, completed])
 
-
     return (
         <div className="app__body">
             <div className="container">
@@ -81,7 +79,7 @@ export const HomeScreen = () => {
                     }
                 </div>
 
-                <Pagination />
+                <Pagination length={state.meta}/>
             </div>
         </div>
     )

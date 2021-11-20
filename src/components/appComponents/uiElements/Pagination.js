@@ -1,15 +1,19 @@
 import React from 'react'
 import { useSearchParams } from 'react-router-dom';
 
-export const Pagination = () => {
+export const Pagination = ({length}) => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const currentPage = searchParams.get('page') || 1
 
+    const maxPage = Math.ceil((length ? length.count : 0) / 10)    
+
     const handleNextPage = () => {
         setSearchParams({ 
-          page: parseInt(currentPage) + 1, 
+          page: parseInt(currentPage) === maxPage 
+                  ? maxPage 
+                  : parseInt(currentPage) + 1, 
           filter: searchParams.get('filter'),
           order: searchParams.get('order'),
           completed: searchParams.get('completed')
