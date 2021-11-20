@@ -37,6 +37,7 @@ export const AppRouter = () => {
                 }
             })
         }
+
     }, [])
 
     return (
@@ -56,15 +57,6 @@ export const AppRouter = () => {
                                 <DashboardRouter />
                             </PrivateRoute>
                         }/>
-                        
-                        {/* <Route index element={<LandingScreen />} /> */}
-
-                        {/* <Route path="/auth">
-                            <Route path="login" element={<LoginScreen />} />
-                            <Route path="register" element={<RegisterScreen />} />
-                        </Route> */}
-
-                        {/* <Route path="/app/*" element={ <DashboardRouter /> } /> */}
                         
                     </Routes>
                 </div>

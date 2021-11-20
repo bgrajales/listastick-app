@@ -10,10 +10,8 @@ export const DashboardRouter = () => {
 
     const { state: authState } = useContext(AuthContext)
    
-    console.log(authState)
-
     if (authState.isAuthenticated) {
-    (authState.settings && authState.settings.theme === 'dark') 
+    (authState.user.settings && authState.user.settings.theme === 'dark') 
         ? document.documentElement.setAttribute("data-theme", 'dark') 
         : document.documentElement.setAttribute("data-theme", 'light')
     }

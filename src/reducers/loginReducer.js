@@ -21,6 +21,28 @@ export const loginReducer = (state = {}, action) => {
                 role: null,
                 token: null
             }
+        case 'CHANGE_THEME':
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    settings: {
+                        ...state.user.settings,
+                        theme: action.payload
+                    }
+                }
+            }
+        case 'CHANGE_PFP':
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    settings: {
+                        ...state.user.settings,
+                        profileImage: action.payload
+                    }
+                }
+            }
         default:
             return state
     }

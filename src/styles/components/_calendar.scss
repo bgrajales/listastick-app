@@ -1,0 +1,13 @@
+.react-calendar__tile {
+    position: relative;
+}
+
+.calendar__taskOnDay {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 100%;
+    background-color: #dc3545;
+}

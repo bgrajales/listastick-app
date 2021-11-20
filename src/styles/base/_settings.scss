@@ -14,7 +14,7 @@ html {
     --card-color: #fff;
     --secondaryBtn-color: #1095e0;
     --sameText-color: #2c2c2c;
-    --white-text-color: #fff; 
+    --white-text: #fff; 
 }
 
 html[data-theme="dark"] {
@@ -31,5 +31,5 @@ html[data-theme="dark"] {
     --card-color: #3b3b3b;
     --secondaryBtn-color: #dadada;
     --sameText-color: #2c2c2c;
-    --white-text-color: #fff; 
+    --white-text: #fff; 
 }

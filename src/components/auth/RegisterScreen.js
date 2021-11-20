@@ -26,6 +26,7 @@ export const RegisterScreen = () => {
 
     const handleRegisterForm = (e) => {
       e.preventDefault()
+      
       data = ({
         ...formValues,
         isSubmitting: true,
