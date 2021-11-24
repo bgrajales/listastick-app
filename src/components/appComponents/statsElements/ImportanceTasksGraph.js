@@ -35,6 +35,25 @@ export const ImportanceTasksGraph = ({ todos }) => {
                     </Pie>
                 </PieChart>
             </ResponsiveContainer>
+
+            <div className="stats__infoDiv">
+                <h3>Priority</h3>
+                <div className="stats__numbers">
+
+                    <div className="stats__high stats__marker">
+                        <h4>High</h4>
+                        <span>{high}</span>
+                    </div>
+                    <div className="stats__medium stats__marker">
+                        <h4>Medium</h4>
+                        <span>{medium}</span>
+                    </div>
+                    <div className="stats__low stats__marker">
+                        <h4>Low</h4>
+                        <span>{low}</span>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

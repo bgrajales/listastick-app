@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import icons from '../../assets/icons/index'
+import icons from '../../../assets/icons/index'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import { AddNewTask } from './modals/AddNewTask'
-import { NavBarCalendar } from './modals/NavBarCalendar'
-import { ProfileModal } from './modals/ProfileModal'
+import { AddNewTask } from '../modals/AddNewTask'
+import { NavBarCalendar } from '../modals/NavBarCalendar'
+import { ProfileModal } from '../modals/ProfileModal'
 
 export const NavBar = () => {
+
+    
 
     const [modal, setModal] = useState('none')
 
@@ -23,9 +25,6 @@ export const NavBar = () => {
         setModal('profile')
     }
 
-    // const handleListsClick = () => {
-    //     setModal('lists')
-    // }
 
     return (
         <nav className="nav__desktopNavBar">
@@ -61,9 +60,6 @@ export const NavBar = () => {
                     <img className="nav__BtnIcon" src={ icons.calendarIcon } alt="Calendar modal" />
                 </div>
                 </OverlayTrigger>
-                {/* <div className="nav__iconAndText" onClick={ handleListsClick }>
-                    <img className="nav__BtnIcon" src={ icons.listIcon } alt="List modal" />
-                </div> */}
             </div>
 
             <OverlayTrigger placement="right" delay={{ show: 50, hide: 250 }}
@@ -74,11 +70,16 @@ export const NavBar = () => {
             </div>
             </OverlayTrigger>
 
-            <AddNewTask show={(modal === 'addNew') ? true : false} setModal={ setModal }/>
-            <NavBarCalendar show={(modal === 'calendar') ? true : false} setModal={ setModal }/>
-            <ProfileModal show={(modal === 'profile') ? true : false} setModal={ setModal }/>
-            {/* <NavBarLists show={(modal === 'lists') ? true : false} setModal={ setModal }/> */}
-            {/* Profile modal */}
+            {
+                modal === 'addNew' 
+                ? <AddNewTask show={(modal === 'addNew') ? true : false} setModal={ setModal }/>
+                : modal === 'calendar' 
+                ? <NavBarCalendar show={(modal === 'calendar') ? true : false} setModal={ setModal }/>
+                : modal === 'profile'
+                ? <ProfileModal show={(modal === 'profile') ? true : false} setModal={ setModal }/>
+                : null
+            }
+           
         </nav>
     )
 }

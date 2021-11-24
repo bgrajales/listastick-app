@@ -6,11 +6,11 @@ export const TotalCompletedTasks = ({ todos }) => {
     const completed = todos.filter(t => t.completed)
     
     const data = [
-        { name: 'Total', value: ((todos.length - 1) - (completed.length - 1)) },
+        { name: 'Incomplete', value: ((todos.length - 1) - (completed.length - 1)) },
         { name: 'Completed', value: completed.length - 1 }
     ];
 
-    const COLORS = ['#0088FE', '#00C49F'];
+    const COLORS = ['#0088FE', '#26C485'];
 
     return (
         <>
@@ -33,6 +33,25 @@ export const TotalCompletedTasks = ({ todos }) => {
                     </Pie>
                 </PieChart>
             </ResponsiveContainer>
+
+            <div className="stats__infoDiv">
+                <h3>Tasks</h3>
+                <div className="stats__numbers">
+
+                    <div>
+                        <h4>Total</h4>
+                        <span>{todos.length - 1}</span>
+                    </div>
+                    <div className="stats__completed stats__marker">
+                        <h4>Completed</h4>
+                        <span>{completed.length - 1}</span>
+                    </div>
+                    <div className="stats__incomplete stats__marker">
+                        <h4>Incomplete</h4>
+                        <span>{(todos.length - 1) - (completed.length - 1)}</span>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

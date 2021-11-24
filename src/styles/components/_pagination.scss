@@ -39,3 +39,12 @@
         }
     }
 }
+
+@media (max-width: $breakpoint-mobile) {
+    .pagination__pagesNavigation {
+
+        ul {
+            bottom: 60px;
+        }
+    }
+}

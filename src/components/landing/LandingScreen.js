@@ -8,7 +8,6 @@ export const LandingScreen = () => {
             <header className="landing__header container">
                 <img src={ landingImages.headerLogo } alt="" />
                 <div className="landing__header-btns">
-                    <button className="btn btn-link">Lenguage</button>
                     <Link to="/auth/login" className="btn btn-primary">Login</Link>
                 </div>
             </header>
@@ -53,17 +52,15 @@ export const LandingScreen = () => {
                     </div>
                     <div>
                         <h1 className="landing__title">Start your organized journey today!</h1>
-                        <Link to="/auth/register" className="btn btn-primary btn-block">Get Started</Link>
+                        <Link to="/auth/register" className="btn btn-primary btn-block" style={{marginTop: 50}}>Get Started</Link>
                     </div>
                 </section>
             </div>
             <footer className="landing__footer">
-                <img src={ landingImages.whiteLogo } alt="" />
+                <img src={ landingImages.whiteLogo } alt="" className="landing__footerLogo"/>
 
                 <div className="landing__socialDiv">
                     <img src={ landingImages.instagram } alt="" />
-                    <img src={ landingImages.twitter } alt="" />
-                    <img src={ landingImages.facebook } alt="" />
                 </div>
             </footer>
 

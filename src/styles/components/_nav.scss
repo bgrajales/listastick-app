@@ -192,3 +192,64 @@
 .nav__profilePfpAndData {
     text-align: center;
 }
+
+@media (max-width: $breakpoint-tablet) {
+    .nav__modal {
+        width: 70%;
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .nav__desktopNavBar {
+        height: 60px;
+        width: 100%;
+        top: auto;
+        bottom: 0;
+        padding: 0 20px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .nav__desktopBtns {
+        flex-direction: row;
+    }
+
+    .nav__active::after {
+        height: 8px;
+        width: 100%;
+        left: 50%;
+        border-radius: 0 0 20px 20px;
+        top: 0px;
+        transform: translate(-50%);
+    }
+
+    .nav__pfp {
+        width: 35px;
+    }
+
+    .nav__desktopBtns {
+        flex: 3;
+        gap: 10px;
+    }
+
+    .nav__iconAndText {
+        flex: 1;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .nav__toolTip {
+        display: none;
+    }
+
+    .nav__modal {
+        left: 0;
+        bottom: 60px;
+        padding: 50px 20px 10px 20px !important;
+        width: 100%;
+    }
+
+    .nav__expandedAddTask {
+        padding: 20px 25px;
+    }
+}

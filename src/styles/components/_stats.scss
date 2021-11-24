@@ -16,3 +16,97 @@
         flex: 1;
     }
 }
+
+.stats__infoDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.stats__numbers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
+    gap: 25px;
+
+    div {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        background-color: var(--card-color);
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+}
+
+.stats__marker {
+
+    &::before {
+        content: "";
+        width: 10px;
+        height: 100%;
+        border-radius: 10px 0 0 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+.stats__completed {
+
+    &::before {
+        background-color: #0088fe;
+    }
+}
+
+.stats__incomplete {
+
+    &::before {
+        background-color: #26C485;
+    }
+}
+
+.stats__high {
+
+    &::before {
+        background-color: #dc3545;
+    }
+}
+
+.stats__medium {
+
+    &::before {
+        background-color: #ffbe0a;
+    }
+}
+
+.stats__low {
+
+    &::before {
+        background-color: #26C485;
+    }
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .stats__block {
+        height: 80%;
+    }
+    
+    .stats__numbers div {
+        width: 70%;
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .stats__body {
+        flex-direction: column;
+        height: 100%;
+    }
+}

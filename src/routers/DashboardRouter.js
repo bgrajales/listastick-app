@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router"
 
 import { HomeScreen } from "../components/app/HomeScreen"
 import { StatsScreen } from "../components/app/StatsScreen"
-import { NavBar } from "../components/appComponents/NavBar"
+import { NavBar } from '../components/appComponents/uiElements/NavBar'
 import { AuthContext } from "../routers/AppRouter"
 
 export const DashboardRouter = () => {

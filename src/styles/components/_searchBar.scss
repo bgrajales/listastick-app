@@ -75,3 +75,9 @@
     background-color: var(--primary-color);
     color: var(--white-text);
 }
+
+@media (max-width: $breakpoint-mobile) {
+    .searchBar__categories {
+        gap: 10px;
+    }
+}

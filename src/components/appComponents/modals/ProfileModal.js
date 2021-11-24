@@ -1,13 +1,17 @@
 import React, { useContext } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { BsFillSunFill, BsFillMoonStarsFill } from 'react-icons/bs'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 import { apiUrl } from '../../../utils/apiUrl'
 import { AuthContext } from '../../../routers/AppRouter'
 import { ProfileImage } from '../uiElements/ProfileImage'
 
+
 export const ProfileModal = ({ show, setModal }) => {
     
+    const MySwal = withReactContent(Swal)
     const { state: authState, dispatch } = useContext(AuthContext)
 
     if (!show) {
@@ -19,9 +23,26 @@ export const ProfileModal = ({ show, setModal }) => {
     }
 
     const handleLogOut = () => {
-        dispatch({ 
-            type: 'LOGOUT'
+
+        MySwal.fire({
+            title: 'Are you sure?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, log out!'
+        }).then((result) => {
+            if (result.value) {
+                MySwal.fire(
+                    'Logged out!',
+                    'You have been logged out.',
+                    'success'
+                )
+                dispatch({ type: 'LOGOUT' })
+                setModal('none')
+            }
         })
+    
     }
 
     const handleThemeChange = (setTheme) => {

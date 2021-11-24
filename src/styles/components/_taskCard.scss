@@ -58,29 +58,21 @@
 
 .taskCard__hoverDiv {
     position: absolute;
-    right: -20px;
+    right: 20px;
     bottom: -20px;
     display: flex;
     flex-direction: row;
     gap: 10px;
 }
 
-.taskCard__changeStatus {
+.taskCard__changeStatus, .taskCard__viewTodos {
     width: 40px;
     height: 40px;
     padding: 10%;
     border-radius: 100%;
     background-color: var(--primary-color);
     color: var(--card-color);
-}
-
-.taskCard__viewTodos {
-    width: 40px;
-    height: 40px;
-    padding: 10%;
-    border-radius: 100%;
-    background-color: var(--primary-color);
-    color: var(--card-color);
+    position: relative;
 }
 
 .taskCard__trashCan {

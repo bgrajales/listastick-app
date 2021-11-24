@@ -43,3 +43,12 @@ body {
         border-radius: 100%;
     }
 }
+
+.swal2-popup {
+    background-color: var(--theme-background-color) !important;
+    color: var(--theme-text-color) !important;
+}
+
+.swal2-title, .swal2-html-container {
+    color: var(--theme-text-color) !important;
+}

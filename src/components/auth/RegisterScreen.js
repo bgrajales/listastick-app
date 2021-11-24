@@ -79,7 +79,10 @@ export const RegisterScreen = () => {
 
             <div className="auth__formDiv flex-1 shadow-lg">
               <div className="auth__topTextDiv">
-               <img onClick={() => navigate(-1)} className="auth__goBackArrow" src={ icons.backIconBlack } alt="" />
+                <img onClick={() => navigate(-1)} className="auth__goBackArrow" src={ icons.backIconBlack } alt="" />
+                <div>
+                  <img className="auth__authLogo" src={ authImages.logo } alt="" />
+                </div>
                 <div>
                   <h3>Welcome to Listastick!</h3>
                 </div>

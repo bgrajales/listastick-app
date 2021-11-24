@@ -52,3 +52,23 @@
     text-align: center;
     margin-top: 25px;
 }
+
+@media (max-width: $breakpoint-tablet) {
+
+    .auth__imageDiv {
+        display: none;
+    }
+
+}
+
+@media (max-width: $breakpoint-mobile) {
+
+    .auth__authLogo {
+        width: 40px;
+    }
+
+    .auth__topTextDiv {
+        gap: 30px;
+    }
+
+}

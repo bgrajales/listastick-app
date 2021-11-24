@@ -1,12 +1,15 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { apiUrl } from '../../utils/apiUrl'
+import Skeleton from '@mui/material/Skeleton';
+import DoneIcon from '@mui/icons-material/Done';
 
 import { AuthContext } from '../../routers/AppRouter'
 import { todosReducer } from '../../reducers/todosReducer'
-import { SearchBar } from '../appComponents/SearchBar'
-import { TaskCard } from '../appComponents/TaskCard'
+import { SearchBar } from '../appComponents/uiElements/SearchBar'
+import { TaskCard } from '../appComponents/uiElements/TaskCard'
 import { Pagination } from '../appComponents/uiElements/Pagination'
+import { ExpandedTaskModal } from '../appComponents/modals/ExpandedTaskModal'
 
 export const TodoContext = createContext()
 
@@ -22,12 +25,22 @@ const initialState = {
     hasError: false,
 }
 
+const initialShowTask = {
+    todo: null,
+    show: false
+}
+
 export const HomeScreen = () => {
+
+    const skeletons = [1,2,3,4,5,6,7,8,9,10]
 
     const { state: authState } = useContext(AuthContext)
     const [ state, dispatch ] = useReducer(todosReducer, initialState)
     const [ searchParams ] = useSearchParams();
-    
+
+    const [showTask, setShowTask] = useState(initialShowTask)
+    const [ isDeleting, setIsDeleting] = useState(false)
+
     const page = searchParams.get('page') || 1
     const filter = searchParams.get('filter') || filters.ALL
     const order = searchParams.get('order')
@@ -35,6 +48,7 @@ export const HomeScreen = () => {
     
     useEffect(() => {
         if (authState.token) {
+            
             dispatch({
                 type: 'FETCH_TODOS_REQUEST',
             })
@@ -66,6 +80,24 @@ export const HomeScreen = () => {
         }
     }, [authState.token, page, filter, order, completed])
 
+    useEffect(() => {
+        setIsDeleting(false)
+    }, [isDeleting])
+
+    const handleSeeMore = (todo) => {
+        setShowTask({
+            todo,
+            show: true
+        })
+    }
+
+    const handleExpandedTaskClose = () => {
+        setShowTask({
+            todo: null,
+            show: false
+        })
+    }
+
     return (
         <div className="app__body">
             <div className="container">
@@ -74,10 +106,40 @@ export const HomeScreen = () => {
                 <div className="app__taskSection">
                     {state.todos.length > 0 &&
                             state.todos.map(todo => (
-                                <TaskCard key={todo.id} todo={todo} />
+                                <TaskCard key={todo.id} todo={todo} handleSeeMore={handleSeeMore} setIsDeleting={setIsDeleting} />
                             ))
                     }
+
+                    {state.isFetching &&
+                        skeletons.map(skeleton => (
+                            <Skeleton key={skeleton} variant="rectangular" animation="wave" height={150} style={{borderRadius: 10}}/>
+                        ))                    
+                    }
+
                 </div>
+
+                {state.todos.length === 0 &&
+                        <div className="app__noTasks">
+                            <h2>
+                                {
+                                    completed === false 
+                                    ? 'No Incomplete Tasks'
+                                    : filter === filters.ALL
+                                    ? 'No Tasks added yet'
+                                    : filter === filters.DAY
+                                    ? 'No Tasks today'
+                                    : 'No tasks'
+                                }
+                            </h2>
+                            <p>You don't have any tasks yet. Add one by clicking "+" button on the nav bar.</p>
+                            <DoneIcon />
+                        </div>
+                }
+
+                {
+                    showTask.show &&
+                    <ExpandedTaskModal show={showTask.show} todo={ showTask.todo } handleExpandedTaskClose={handleExpandedTaskClose}/>
+                }
 
                 <Pagination length={state.meta}/>
             </div>
