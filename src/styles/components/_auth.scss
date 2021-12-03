@@ -53,6 +53,12 @@
     margin-top: 25px;
 }
 
+.auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
 @media (max-width: $breakpoint-tablet) {
 
     .auth__imageDiv {

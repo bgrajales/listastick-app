@@ -1,4 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
+import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import authImages from '../../assets/images/auth/index'
 import icons from '../../assets/icons/index'
@@ -12,7 +16,8 @@ export const RegisterScreen = () => {
 
     const { dispatch } = useContext(AuthContext)
     const navigate = useNavigate()  
-
+    const [registerError, setRegisterError] = useState(false)
+    
     let data = {
       email: '',
       name: '',
@@ -26,14 +31,15 @@ export const RegisterScreen = () => {
 
     const handleRegisterForm = (e) => {
       e.preventDefault()
-      
+
+      setRegisterError(false)
+
       data = ({
         ...formValues,
         isSubmitting: true,
         errorMessage: null
       })
       
-      console.log(data)
       fetch(apiUrl('register'), {
 
         method: 'POST',
@@ -47,10 +53,10 @@ export const RegisterScreen = () => {
         })
 
       }).then(res => {
-        console.log(res)
         if (res.ok) {
           return res.json()
         } else {
+          setRegisterError(true)
           throw res
         }
       }).then(data => {
@@ -60,7 +66,7 @@ export const RegisterScreen = () => {
         })
         navigate('/app/home')
       }).catch(err => {
-        console.log(err)
+        setRegisterError(true)
         data = ({
           ...formValues,
           isSubmitting: false,
@@ -88,21 +94,71 @@ export const RegisterScreen = () => {
                 </div>
               </div>
 
-              <form onSubmit={ handleRegisterForm }>
+              <form onSubmit={ handleRegisterForm } className="auth__form">
         
-                <label className="form-label">Email</label>
-                <input type="email" placeholder="jhondoe@gmail.com" className="form-control" name="email" onChange={ handleInputChange } value={ formValues.email }/>
-                    
-                <label className="form-label">Full Name</label>
-                <input type="text" placeholder="Jhon Doe" className="form-control" name="name" onChange={ handleInputChange } value={ formValues.name } />
-                
-                <label className="form-label">Password</label>
-                <input type="password" placeholder="Type your 8 characters password here" className="form-control" name="password" onChange={ handleInputChange } value={ formValues.password } />
-                
-                <label className="form-label">Repeat Password</label>
-                <input type="password" placeholder="Repeat your password here" className="form-control" name="repeatPassword" onChange={ handleInputChange } value={ formValues.repeatPassword }/>
-                
-                <button className="btn btn-primary btn-block" type="submit">Sign Up</button>
+              {
+                registerError &&
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                    <Alert severity="error">Invalid credentials</Alert>
+                </Stack>
+              }
+              
+              <TextField 
+                        label="Email"
+                        type="email"
+                        variant="outlined" 
+                        className="form-control" 
+                        name="email" 
+                        onChange={ handleInputChange } 
+                        value={ formValues.email }
+                        {
+                            ...(registerError && { error: true })
+                        }
+                />
+              <TextField 
+                        label="Full Name" 
+                        type="text"
+                        variant="outlined" 
+                        className="form-control" 
+                        name="name" 
+                        onChange={ handleInputChange } 
+                        value={ formValues.name }
+                        {
+                            ...(registerError && { error: true })
+                        }
+                />
+              <TextField 
+                        label="Password" 
+                        type="password"
+                        variant="outlined" 
+                        className="form-control" 
+                        name="password" 
+                        onChange={ handleInputChange } 
+                        value={ formValues.password }
+                        {
+                            ...(registerError && { error: true })
+                        }
+                />
+              <TextField 
+                        label="Repeat Password" 
+                        type="password"
+                        variant="outlined" 
+                        className="form-control" 
+                        name="repeatPassword" 
+                        onChange={ handleInputChange } 
+                        value={ formValues.repeatPassword }
+                        {
+                            ...(registerError && { error: true })
+                        }
+                />            
+                        
+                <button className="btn btn-primary btn-block" type="submit">
+                  {
+                    data.isSubmitting
+                    ? <AiOutlineLoading3Quarters className="app__loadingIcon" /> 
+                    : 'Register'
+                  }
+                </button>
               </form>
               
             </div>

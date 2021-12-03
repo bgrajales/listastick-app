@@ -1,4 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
+import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import authImages from '../../assets/images/auth/index'
 import icons from '../../assets/icons/index'
@@ -11,6 +15,7 @@ export const LoginScreen = () => {
 
     const { dispatch } = useContext(AuthContext)
     const navigate = useNavigate()
+    const [loginError, setLoginError] = useState(false)
 
     let data = {
         email: '',
@@ -24,6 +29,8 @@ export const LoginScreen = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
+
+        setLoginError(false)
 
         data = ({
             ...formValues,
@@ -45,11 +52,12 @@ export const LoginScreen = () => {
 
         }).then(res => {
 
-            if (res.ok) {
+            if(res.ok) {
                 return res.json()
-            } 
-            
-            throw res
+            } else {
+                setLoginError(true)
+                throw new Error('Something went wrong')
+            }
             
         }).then(data => {
             dispatch({
@@ -88,15 +96,48 @@ export const LoginScreen = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleFormSubmit}>
-                    <label className="form-label">Email</label>
-                    <input type="email" placeholder="jhondoe@gmail.com" className="form-control" name="email" vaule={formValues.email} onChange={handleInputChange}/>
                 
 
-                    <label className="form-label">Password</label>
-                    <input type="password" placeholder="Type your password here" className="form-control" name="password" value={formValues.password} onChange={handleInputChange}/>
-                
-                    <button className="btn btn-primary btn-block">Log In</button>
+                <form onSubmit={handleFormSubmit} className="auth__form">
+                    {
+                        loginError &&
+                        <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert severity="error">Invalid credentials</Alert>
+                        </Stack>
+                    }
+                    
+
+                    <TextField 
+                        label="Email" 
+                        variant="outlined" 
+                        className="form-control" 
+                        name="email" 
+                        vaule={formValues.email} 
+                        onChange={handleInputChange}
+                        {
+                            ...(loginError && { error: true })
+                        }
+                    />
+                    <TextField 
+                        label="Password" 
+                        type="password" 
+                        variant="outlined" 
+                        className="form-control" 
+                        name="password" 
+                        value={formValues.password} 
+                        onChange={handleInputChange}
+                        {
+                            ...(loginError && { error: true })
+                        }
+                    />
+
+                    <button className="btn btn-primary btn-block">
+                        {
+                            data.isSubmitting
+                            ? <AiOutlineLoading3Quarters className="app__loadingIcon" /> 
+                            : 'Login'
+                        }
+                    </button>
                 </form>
 
                 <div className="auth__dontHaveDiv">

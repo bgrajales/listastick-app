@@ -71,8 +71,9 @@
     padding: 10%;
     border-radius: 100%;
     background-color: var(--primary-color);
-    color: var(--card-color);
+    color: var(--white-text);
     position: relative;
+    padding: 8px;
 }
 
 .taskCard__trashCan {

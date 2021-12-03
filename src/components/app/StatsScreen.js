@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { todosReducer } from '../../reducers/todosReducer';
 import { AuthContext } from '../../routers/AppRouter';
@@ -14,6 +15,7 @@ const initialState = {
 
 export const StatsScreen = () => {
 
+    const navigate = useNavigate()
     const { state: authState } = useContext(AuthContext)
     const [ state, dispatch ] = useReducer(todosReducer, initialState)
 
@@ -37,10 +39,30 @@ export const StatsScreen = () => {
                 console.log(data)
                 dispatch({ type: 'FETCH_TODOS_SUCCESS', payload: data })
             }).catch(err => {
-                dispatch({ type: 'FETCH_TODOS_FAILURE' })
+                console.error('Error en fetch de todos', err)
+
+                if (err.status === 401) {
+
+                    // if (RERESH_TOKEN)
+                        // Pido nuevo token a API usando el refresh
+                        // si API responde OK listo
+                            //Hacer relica de request que fallo
+                        // Si API responde error redireccionar a login
+                    // si no tengo RefreshToken &&  ! token
+                    // redireccionar a login
+                    
+                    localStorage.clear()
+                    navigate('/auth/login')
+                } else if (err.status === 403) { //403 = Forbidden implementar
+                    navigate('/forbidden')
+                } else {
+                    dispatch({
+                        type: 'FETCH_TODOS_FAILURE',
+                    })
+                }
             })
         }
-    }, [authState.token])
+    }, [authState.token, navigate])
 
     return (
         <div className="app__body container stats__body">

@@ -57,7 +57,7 @@ export const ProfileImage = () => {
             // }).catch(err => {
             //     console.log(err)
             // })
-        }
+    }
 
     return (
         <div className="nav__pfpImage">

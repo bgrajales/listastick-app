@@ -1,15 +1,29 @@
+import React, { useContext, useState } from 'react'
 import { format } from 'date-fns'
-import React, { useContext } from 'react'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 import { IoMdClose } from 'react-icons/io'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { addNewTask } from '../../../actions/todos'
 import { useForm } from '../../../hooks/useForm'
 import { AuthContext } from '../../../routers/AppRouter'
-import { apiUrl } from '../../../utils/apiUrl'
 
 export const AddNewTask = ({ show, setModal }) => {
 
-  const { state: authState } = useContext(AuthContext)
+  const MySwal = withReactContent(Swal)
 
+  const { state: authState } = useContext(AuthContext)
+  const [ addingState, setAddingState ] = useState(false)
+  const [ addError, setAddError ] = useState({
+    error: false,
+    message: ''
+  })
+  
   const initialState = { 
         title: '',
         priority: 'low',
@@ -17,44 +31,47 @@ export const AddNewTask = ({ show, setModal }) => {
         dueDate: format(new Date(), 'yyyy-MM-dd')
     }  
 
-    const [ formValues, handleInputChange ] = useForm(initialState)
+    const [ formValues, handleInputChange, reset ] = useForm(initialState)
 
-    const handleAddNewSubmit = (e) => {
+    const handleAddNewSubmit = async(e) => {
       e.preventDefault()
 
       //Dispatch request action (Loading)
+      setAddingState(true)
+      setAddError({
+        error: false,
+        message: ''
+      })
 
       const data = {
         ...formValues,
         completed: false
       }
 
-      fetch(apiUrl('todos'), {
-        method: 'POST',
-        headers: {
-          'authorization': authState.token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw res
-        }
-      }).then(data => {
-        // formValues = {
-        //   title: '',
-        //   priority: 'low',
-        //   description: '',
-        //   dueDate: format(new Date(), 'yyyy-MM-dd')
-        // }
+      // const response = new Promise(addNewTask(data, authState.token))
 
-        //Dispatch succes action
-      }).catch(err => {
-        console.log(err)
-        //Dispatch failure action
-      })
+      const added = await addNewTask(data, authState.token)
+
+      if(added.status) {
+        setAddingState(false)
+        reset()
+
+        MySwal.fire({
+          icon: 'success',
+          title: 'Task added successfully',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        console.log(added)
+      } else {
+        setAddingState(false)
+        setAddError({
+          error: true,
+          message: 'Something went wrong'
+        })
+
+      }
+       
     }
 
     const handleCloseClick = () => {
@@ -64,10 +81,20 @@ export const AddNewTask = ({ show, setModal }) => {
     
     return (
         <div className={`nav__modal animate__animated animate__slideInLeft ${(!show) ? 'd-none' : ''}`}>
+         
             <IoMdClose className="nav__closeModal" onClick={ handleCloseClick }/>
             
+            {
+              addError.error &&
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                  <Alert severity="error">{addError.message}</Alert>
+                </Stack>
+            }
+            
+
             <form className="nav__expandedAddTask" onSubmit={ handleAddNewSubmit }>
 
+              
 
               <div className="smallInputDiv">
                 <label className="form-label">Task title</label>
@@ -75,7 +102,7 @@ export const AddNewTask = ({ show, setModal }) => {
               </div>
 
               <div className="smallInputDiv">
-                <label className="form-label">Priority</label>
+              <label className="form-label">Priority</label>
                 <select className="form-control nav__modalInput" name="priority" onChange={ handleInputChange } value={ formValues.priority }>
                   <option value="low">Low</option>
                   <option value="mid">Medium</option>
@@ -94,7 +121,13 @@ export const AddNewTask = ({ show, setModal }) => {
               </div>
               
               <div id="taskAddBtnSec">
-                <button type="submit" className="btn btn-primary btn-block">Add Task</button>
+                <button type="submit" className="btn btn-primary btn-block">
+                  {
+                    (addingState) 
+                    ? <AiOutlineLoading3Quarters className="app__loadingIcon" /> 
+                    : 'Add New'
+                  }
+                </button>
               </div>
 
             </form>

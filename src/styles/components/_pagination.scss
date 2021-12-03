@@ -40,6 +40,17 @@
     }
 }
 
+li {
+
+    .disabled {
+        pointer-events: none;
+        cursor: default;
+        color: var(--theme-text-color);
+        background-color: var(--theme-background-color);
+        border-radius: 100%;
+    }
+}
+
 @media (max-width: $breakpoint-mobile) {
     .pagination__pagesNavigation {
 

@@ -4,8 +4,8 @@ import { IoMdClose } from 'react-icons/io'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-import { apiUrl } from '../../../utils/apiUrl'
 import { AuthContext } from '../../../routers/AppRouter'
+import { changeStatusTask, deleteSelectedTask } from '../../../actions/todos'
 
 export const ExpandedTaskModal = ({ show, todo, handleExpandedTaskClose }) => {
     
@@ -25,59 +25,14 @@ export const ExpandedTaskModal = ({ show, todo, handleExpandedTaskClose }) => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                MySwal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
-                fetch(apiUrl(`todos/${todo.id}`), {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: authState.token
-                    }
-                }).then(res => {
-                    if (res.ok) {
-                        return res.json()
-                    } else {
-                        console.log('error')
-                    }
-                }).then(data => {
-                    console.log(data)
-                    handleExpandedTaskClose()
-                }).catch(err => {
-                    console.log(err)
-                })
+                handleExpandedTaskClose()
+                deleteSelectedTask( todo, authState.token )
             }
         }) 
     }
 
     const handleCompletedClick = () => {
-        fetch(apiUrl(`todos/${todo.id}`), {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: authState.token
-            },
-            body: JSON.stringify({
-                id: todo.id,
-                title: todo.title,
-                description: todo.description,
-                priority: todo.priority,
-                dueDate: todo.dueDate,
-                completed: !todo.completed,
-            })
-        }).then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                console.log('error')
-            }
-        }).then(data => {
-            console.log(data)
-        }).catch(err => {
-            console.log(err)
-        })
+        changeStatusTask( todo, authState.token )
     }
     
     if (show) {

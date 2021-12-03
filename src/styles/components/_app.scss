@@ -23,10 +23,43 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    p {
+        text-align: center;
+    }
+}
+
+.app__skeletonsDiv {
+    position: absolute;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 0px;
+    row-gap: 25px;
+    grid-column-gap: 30px;
+    column-gap: 30px;
+    background-color: var(--theme-background-color);
+}
+
+.app__loadingIcon {
+    animation: rotation 0.4s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
 }
 
 @media (max-width: $breakpoint-tablet) {
     .app__taskSection {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .app__skeletonsDiv {
         grid-template-columns: repeat(1, 1fr);
     }
 }

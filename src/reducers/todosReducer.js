@@ -11,7 +11,7 @@ export const todosReducer = (state = {}, action) => {
                 ...state,
                 isFetching: false,
                 todos: action.payload.todos,
-                meta: action.payload.meta
+                total: action.payload.total
             }
         case 'FETCH_TODOS_FAILURE':
             return {

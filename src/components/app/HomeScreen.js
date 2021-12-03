@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { apiUrl } from '../../utils/apiUrl'
 import Skeleton from '@mui/material/Skeleton';
 import DoneIcon from '@mui/icons-material/Done';
@@ -32,14 +32,14 @@ const initialShowTask = {
 
 export const HomeScreen = () => {
 
-    const skeletons = [1,2,3,4,5,6,7,8,9,10]
+    const skeletons = [1,2,3,4,5,6,7,8]
 
-    const { state: authState } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const { state: authState, dispatch: authDispatcher } = useContext(AuthContext)
     const [ state, dispatch ] = useReducer(todosReducer, initialState)
     const [ searchParams ] = useSearchParams();
 
     const [showTask, setShowTask] = useState(initialShowTask)
-    const [ isDeleting, setIsDeleting] = useState(false)
 
     const page = searchParams.get('page') || 1
     const filter = searchParams.get('filter') || filters.ALL
@@ -66,23 +66,56 @@ export const HomeScreen = () => {
                     throw res
                 }
             }).then(data => {
-                dispatch({
+                 dispatch({
                     type: 'FETCH_TODOS_SUCCESS',
                     payload: data,
                 })
             }).catch(err => {
-                console.log(err)
+                console.error('Error en fetch de todos', err)
 
-                dispatch({
-                    type: 'FETCH_TODOS_FAILURE',
-                })
+                if (err.status === 401) {
+                    
+                    fetch(apiUrl('refresh'), {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            refreshToken: authState.refreshToken
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }).then(res => {
+                        if(res.ok) {
+                            return res.json()
+                        } else {
+                            throw res
+                        }
+                    }).then(data => {
+                        authDispatcher({
+                            type: 'REFRESH_TOKEN_SUCCESS',
+                            payload: data,
+                        })
+                    }
+                    ).catch(err => {
+                        console.error('Error en refresh de token', err)
+                        authDispatcher({
+                            type: 'REFRESH_TOKEN_FAILURE',
+                        })
+                        localStorage.clear()
+                        navigate('/auth/login')
+                    })
+
+                } else if (err.status === 403) { //403 = Forbidden implementar
+                    navigate('/forbidden')
+                } else {
+                    dispatch({
+                        type: 'FETCH_TODOS_FAILURE',
+                    })
+                }
             })
         }
-    }, [authState.token, page, filter, order, completed])
+    }, [authState.token, authState.refreshToken, authDispatcher, page, filter, order, completed, navigate])
 
-    useEffect(() => {
-        setIsDeleting(false)
-    }, [isDeleting])
+    
 
     const handleSeeMore = (todo) => {
         setShowTask({
@@ -104,21 +137,23 @@ export const HomeScreen = () => {
                 <SearchBar />
                 
                 <div className="app__taskSection">
-                    {state.todos.length > 0 &&
+                    {state.isFetching === false && state.todos.length > 0 && 
                             state.todos.map(todo => (
-                                <TaskCard key={todo.id} todo={todo} handleSeeMore={handleSeeMore} setIsDeleting={setIsDeleting} />
+                                <TaskCard key={todo.id} todo={todo} handleSeeMore={handleSeeMore} />
                             ))
                     }
 
-                    {state.isFetching &&
+                    <div className={`app__skeletonsDiv ${!state.isFetching ? '' : 'd-none'}`}>
+                    {state.isFetching && 
                         skeletons.map(skeleton => (
                             <Skeleton key={skeleton} variant="rectangular" animation="wave" height={150} style={{borderRadius: 10}}/>
                         ))                    
                     }
+                    </div>
 
                 </div>
 
-                {state.todos.length === 0 &&
+                { !state.isFetching && state.todos.length === 0 &&
                         <div className="app__noTasks">
                             <h2>
                                 {
@@ -141,7 +176,7 @@ export const HomeScreen = () => {
                     <ExpandedTaskModal show={showTask.show} todo={ showTask.todo } handleExpandedTaskClose={handleExpandedTaskClose}/>
                 }
 
-                <Pagination length={state.meta}/>
+                <Pagination length={state.total}/>
             </div>
         </div>
     )

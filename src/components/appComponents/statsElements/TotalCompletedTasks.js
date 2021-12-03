@@ -40,15 +40,15 @@ export const TotalCompletedTasks = ({ todos }) => {
 
                     <div>
                         <h4>Total</h4>
-                        <span>{todos.length - 1}</span>
+                        <span>{todos.length}</span>
                     </div>
                     <div className="stats__completed stats__marker">
                         <h4>Completed</h4>
-                        <span>{completed.length - 1}</span>
+                        <span>{completed.length}</span>
                     </div>
                     <div className="stats__incomplete stats__marker">
                         <h4>Incomplete</h4>
-                        <span>{(todos.length - 1) - (completed.length - 1)}</span>
+                        <span>{(todos.length) - (completed.length)}</span>
                     </div>
                 </div>
             </div>

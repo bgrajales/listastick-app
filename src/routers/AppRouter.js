@@ -10,6 +10,7 @@ import { AuthRouter } from './AuthRouter';
 import { DashboardRouter } from './DashboardRouter';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
+import { Forbidden } from "../components/auth/Forbidden"
 
 const initialState = {
     isAuthenticated: false,
@@ -57,6 +58,8 @@ export const AppRouter = () => {
                                 <DashboardRouter />
                             </PrivateRoute>
                         }/>
+
+                        <Route path="/forbidden" element={<Forbidden />} />
                         
                     </Routes>
                 </div>

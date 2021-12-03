@@ -8,8 +8,9 @@ import withReactContent from 'sweetalert2-react-content'
 import { apiUrl } from '../../../utils/apiUrl'
 import { AuthContext } from '../../../routers/AppRouter'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { deleteSelectedTask } from '../../../actions/todos'
 
-export const TaskCard = ({ todo, handleSeeMore, setIsDeleting }) => {
+export const TaskCard = ({ todo, handleSeeMore }) => {
 
     const MySwal = withReactContent(Swal)
 
@@ -65,29 +66,7 @@ export const TaskCard = ({ todo, handleSeeMore, setIsDeleting }) => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                MySwal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
-                fetch(apiUrl(`todos/${todo.id}`), {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: authState.token
-                    }
-                }).then(res => {
-                    if (res.ok) {
-                        return res.json()
-                    } else {
-                        console.log('error')
-                    }
-                }).then(data => {
-                    setIsDeleting(true)
-                    console.log(data)
-                }).catch(err => {
-                    console.log(err)
-                })
+                deleteSelectedTask( todo, authState.token )
             }
         }) 
     }
