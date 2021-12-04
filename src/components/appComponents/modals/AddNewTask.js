@@ -2,8 +2,6 @@ import React, { useContext, useState } from 'react'
 import { format } from 'date-fns'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
@@ -15,16 +13,16 @@ import { AuthContext } from '../../../routers/AppRouter'
 
 export const AddNewTask = ({ show, setModal }) => {
 
-  const MySwal = withReactContent(Swal)
+    const MySwal = withReactContent(Swal)
 
-  const { state: authState } = useContext(AuthContext)
-  const [ addingState, setAddingState ] = useState(false)
-  const [ addError, setAddError ] = useState({
-    error: false,
-    message: ''
-  })
-  
-  const initialState = { 
+    const { state: authState } = useContext(AuthContext)
+    const [ addingState, setAddingState ] = useState(false)
+    const [ addError, setAddError ] = useState({
+      error: false,
+      message: ''
+    })
+    
+    const initialState = { 
         title: '',
         priority: 'low',
         description: '',
@@ -36,7 +34,6 @@ export const AddNewTask = ({ show, setModal }) => {
     const handleAddNewSubmit = async(e) => {
       e.preventDefault()
 
-      //Dispatch request action (Loading)
       setAddingState(true)
       setAddError({
         error: false,
@@ -47,8 +44,6 @@ export const AddNewTask = ({ show, setModal }) => {
         ...formValues,
         completed: false
       }
-
-      // const response = new Promise(addNewTask(data, authState.token))
 
       const added = await addNewTask(data, authState.token)
 
@@ -62,7 +57,6 @@ export const AddNewTask = ({ show, setModal }) => {
           showConfirmButton: false,
           timer: 1500
         })
-        console.log(added)
       } else {
         setAddingState(false)
         setAddError({
@@ -71,7 +65,7 @@ export const AddNewTask = ({ show, setModal }) => {
         })
 
       }
-       
+        
     }
 
     const handleCloseClick = () => {

@@ -5,9 +5,9 @@ import { format, lastDayOfMonth, subMonths } from 'date-fns';
 
 import { todosReducer } from '../../../reducers/todosReducer'
 import { AuthContext } from '../../../routers/AppRouter';
-import { apiUrl } from '../../../utils/apiUrl';
 import { addDays } from 'date-fns/esm';
 import { DateTaskCards } from '../uiElements/DateTaskCards';
+import { fetchCalendarTodos } from '../../../actions/todos';
 
 const initialState = {
     todos: [],
@@ -43,28 +43,9 @@ export const NavBarCalendar = ({ show, setModal }) => {
         if (authState.token) {
             dispatch({ type: 'FETCH_TODOS_REQUEST' })
 
-            fetch(apiUrl(`todosCalendar?startDate=${calendarDates.startDate}&endDate=${calendarDates.endDate}`), {
-                method: 'GET',
-                headers: {
-                    'authorization': authState.token,
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    throw new Error('Something went wrong')
-                }
-            }).then(data => {
-                dispatch({
-                    type: 'FETCH_CALENDAR_SUCCESS',
-                    payload: data
-                })
-            }).catch(err => {
-                console.log(err)
-            })
+            fetchCalendarTodos( calendarDates.startDate, calendarDates.endDate, authState.token, dispatch )
         }
-    }, [authState.token, calendarDates])
+    }, [authState.token, calendarDates, dispatch])
 
     const handleCalendarDayIndicator = ( date ) => {
         const todos = state.todos
@@ -83,6 +64,7 @@ export const NavBarCalendar = ({ show, setModal }) => {
     const handleDayClick = ( date ) => {
         setCurrentDate(format(date, 'yyyy-MM-dd'))
     }
+
     return (
         <div className={`nav__modal animate__animated animate__slideInLeft ${(!show) ? 'd-none' : ''}`}>
              <IoMdClose className="nav__closeModal" onClick={ handleCloseClick }/>

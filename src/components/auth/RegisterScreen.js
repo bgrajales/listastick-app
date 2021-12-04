@@ -9,7 +9,7 @@ import icons from '../../assets/icons/index'
 import { useNavigate } from 'react-router'
 import { AuthContext } from '../../routers/AppRouter'
 import { useForm } from '../../hooks/useForm'
-import { apiUrl } from '../../utils/apiUrl'
+import { userRegister } from '../../actions/users';
 
 
 export const RegisterScreen = () => {
@@ -40,39 +40,14 @@ export const RegisterScreen = () => {
         errorMessage: null
       })
       
-      fetch(apiUrl('register'), {
+      const user = {
+        name: data.name,
+        email: data.email,
+        password: data.password
+      }
 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password
-        })
+      userRegister( user, dispatch, navigate, setRegisterError, data )
 
-      }).then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          setRegisterError(true)
-          throw res
-        }
-      }).then(data => {
-        dispatch({
-          type: 'LOGIN',
-          payload: data
-        })
-        navigate('/app/home')
-      }).catch(err => {
-        setRegisterError(true)
-        data = ({
-          ...formValues,
-          isSubmitting: false,
-          errorMessage: 'No se pudo crear el usuario'
-        })
-      })
     }
 
     return (

@@ -9,7 +9,7 @@ import icons from '../../assets/icons/index'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { AuthContext } from '../../routers/AppRouter'
-import { apiUrl } from '../../utils/apiUrl'
+import { userLogin } from '../../actions/users';
 
 export const LoginScreen = () => {
 
@@ -38,44 +38,15 @@ export const LoginScreen = () => {
             errorMessage: null
         })
 
-        fetch(apiUrl('login'), {
+        const user = {
+            email: data.email,
+            password: data.password,
+            token: data.token
+        }
 
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: data.email,
-                password: data.password,
-                token: data.token
-            })
+        userLogin( user, dispatch, navigate, setLoginError, data )
 
-        }).then(res => {
-
-            if(res.ok) {
-                return res.json()
-            } else {
-                setLoginError(true)
-                throw new Error('Something went wrong')
-            }
-            
-        }).then(data => {
-            dispatch({
-                type: 'LOGIN',
-                payload: data
-            })
-
-            navigate('/app/home')
-        }).catch(err => {
-            console.log(err)
-
-            data = ({
-                ...data,
-                isSubmitting: false,
-                errorMessage: 'Crendenciales Invalidas'
-        })
-    }
-    )}
+}
 
     return (
         <main className="auth__main">

@@ -4,9 +4,9 @@ import { BsFillSunFill, BsFillMoonStarsFill } from 'react-icons/bs'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-import { apiUrl } from '../../../utils/apiUrl'
 import { AuthContext } from '../../../routers/AppRouter'
 import { ProfileImage } from '../uiElements/ProfileImage'
+import { changeUserSettings } from '../../../actions/users'
 
 
 export const ProfileModal = ({ show, setModal }) => {
@@ -47,36 +47,17 @@ export const ProfileModal = ({ show, setModal }) => {
 
     const handleThemeChange = (setTheme) => {
 
-        fetch(apiUrl(`user/${authState.user.id}`), {
-            method: 'PUT',
-            headers: {
-                authorization: authState.token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: authState.user.name,
-                email: authState.user.email,
-                mfaEnabled: authState.user.mfaEnabled,
-                settings: {
-                    ...authState.user.settings,
-                    theme: setTheme
-                }
-            })
-        }).then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                throw new Error('Something went wrong')
+        const newSettings = {
+            name: authState.user.name,
+            email: authState.user.email,
+            mfaEnabled: authState.user.mfaEnabled || false,
+            settings: {
+                ...authState.user.settings,
+                theme: setTheme
             }
-        }).then(data => {
-            dispatch({
-                type: 'CHANGE_THEME',
-                payload: setTheme
-            })
-            JSON.parse(localStorage.setItem('user', JSON.stringify(data)));
-        }).catch(err => {
-            console.log(err)
-        })
+        }
+
+        changeUserSettings( authState.token, authState.user.id, newSettings, dispatch  )
 
     }
 

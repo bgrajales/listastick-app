@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { apiUrl } from '../../utils/apiUrl'
 import Skeleton from '@mui/material/Skeleton';
 import DoneIcon from '@mui/icons-material/Done';
 
@@ -10,6 +9,7 @@ import { SearchBar } from '../appComponents/uiElements/SearchBar'
 import { TaskCard } from '../appComponents/uiElements/TaskCard'
 import { Pagination } from '../appComponents/uiElements/Pagination'
 import { ExpandedTaskModal } from '../appComponents/modals/ExpandedTaskModal'
+import { fetchHomeTodos } from '../../actions/todos';
 
 export const TodoContext = createContext()
 
@@ -48,70 +48,13 @@ export const HomeScreen = () => {
     
     useEffect(() => {
         if (authState.token) {
-            
+
             dispatch({
                 type: 'FETCH_TODOS_REQUEST',
             })
 
-            fetch(apiUrl(`todos?page=${page}&filter=${filter}&order=${order}&completed=${completed}`), {
-                method: 'GET',
-                headers: {
-                    'Authorization': authState.token,
-                    'Content-Type': 'application/json',
-                }
-            }).then(res => {
-                if(res.ok) {
-                    return res.json()
-                } else {
-                    throw res
-                }
-            }).then(data => {
-                 dispatch({
-                    type: 'FETCH_TODOS_SUCCESS',
-                    payload: data,
-                })
-            }).catch(err => {
-                console.error('Error en fetch de todos', err)
-
-                if (err.status === 401) {
-                    
-                    fetch(apiUrl('refresh'), {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            refreshToken: authState.refreshToken
-                        }),
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    }).then(res => {
-                        if(res.ok) {
-                            return res.json()
-                        } else {
-                            throw res
-                        }
-                    }).then(data => {
-                        authDispatcher({
-                            type: 'REFRESH_TOKEN_SUCCESS',
-                            payload: data,
-                        })
-                    }
-                    ).catch(err => {
-                        console.error('Error en refresh de token', err)
-                        authDispatcher({
-                            type: 'REFRESH_TOKEN_FAILURE',
-                        })
-                        localStorage.clear()
-                        navigate('/auth/login')
-                    })
-
-                } else if (err.status === 403) { //403 = Forbidden implementar
-                    navigate('/forbidden')
-                } else {
-                    dispatch({
-                        type: 'FETCH_TODOS_FAILURE',
-                    })
-                }
-            })
+            fetchHomeTodos( page, filter, order, completed, authState.token, authState.refreshToken, dispatch, authDispatcher )
+            
         }
     }, [authState.token, authState.refreshToken, authDispatcher, page, filter, order, completed, navigate])
 

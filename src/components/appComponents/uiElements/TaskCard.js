@@ -5,10 +5,9 @@ import { parseISO, toDate } from 'date-fns'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-import { apiUrl } from '../../../utils/apiUrl'
 import { AuthContext } from '../../../routers/AppRouter'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { deleteSelectedTask } from '../../../actions/todos'
+import { changeStatusTask, deleteSelectedTask } from '../../../actions/todos'
 
 export const TaskCard = ({ todo, handleSeeMore }) => {
 
@@ -27,31 +26,9 @@ export const TaskCard = ({ todo, handleSeeMore }) => {
     }
 
     const handleCompletedClick = () => {
-        fetch(apiUrl(`todos/${todo.id}`), {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: authState.token
-            },
-            body: JSON.stringify({
-                id: todo.id,
-                title: todo.title,
-                description: todo.description,
-                priority: todo.priority,
-                dueDate: todo.dueDate,
-                completed: !todo.completed,
-            })
-        }).then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                console.log('error')
-            }
-        }).then(data => {
-            setCompleted(!completed)
-        }).catch(err => {
-            console.log(err)
-        })
+
+        changeStatusTask( todo, authState.token, setCompleted, completed )
+
     }
 
     const handleDeleteClick = () => {
