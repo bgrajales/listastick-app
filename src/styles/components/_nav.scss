@@ -97,19 +97,24 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
-    overflow: scroll;
     justify-content: center;
 }
 
 .nav__expandedAddTask {
     background-color: var(--theme-background-color);
     color: var(--theme-text-color);
-    border-radius: 10px;
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    position: relative;
+    grid-gap: 15px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80%;
+    height: 70%;
+    border-radius: 0 20px 20px 0;
+    justify-content: space-evenly;
 
     textarea {
         resize: none;
@@ -170,15 +175,20 @@
 
 .nav__expandedProfile {
     background-color: var(--theme-background-color);
-    border-radius: 10px;
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
+    grid-gap: 15px;
     gap: 15px;
-    position: relative;
-    height: 100%;
     align-items: center;
     justify-content: space-evenly;
+    position: absolute;
+    width: 80%;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 85%;
+    border-radius: 0 20px 20px 0;
 }
 
 .nav__configSubDiv {
@@ -250,6 +260,18 @@
     }
 
     .nav__expandedAddTask {
-        padding: 20px 25px;
+        bottom: 0;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 20px 20px 0 0;
+    }
+
+    .nav__expandedProfile {
+        bottom: 0;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 20px 20px 0 0;
     }
 }

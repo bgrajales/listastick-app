@@ -16,13 +16,11 @@ export const LoginScreen = () => {
     const { dispatch } = useContext(AuthContext)
     const navigate = useNavigate()
     const [loginError, setLoginError] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     let data = {
         email: '',
         password: '',
-        token: '',
-        isSubmitting: false,
-        errorMessage: ''
     }
     
     const [formValues, handleInputChange ] = useForm(data)
@@ -31,22 +29,20 @@ export const LoginScreen = () => {
         e.preventDefault()
 
         setLoginError(false)
+        setLoading(true)
 
         data = ({
             ...formValues,
-            isSubmitting: true,
-            errorMessage: null
         })
 
         const user = {
             email: data.email,
             password: data.password,
-            token: data.token
         }
 
-        userLogin( user, dispatch, navigate, setLoginError, data )
+        userLogin( user, dispatch, navigate, setLoginError, setLoading )
 
-}
+    }
 
     return (
         <main className="auth__main">
@@ -104,7 +100,7 @@ export const LoginScreen = () => {
 
                     <button className="btn btn-primary btn-block">
                         {
-                            data.isSubmitting
+                            loading
                             ? <AiOutlineLoading3Quarters className="app__loadingIcon" /> 
                             : 'Login'
                         }

@@ -28,13 +28,15 @@ export const AppRouter = () => {
         
         const user = JSON.parse(localStorage.getItem('user'));
         const token = localStorage.getItem('token')
+        const refreshToken = localStorage.getItem('refreshToken')
         
         if (user && token) {
             dispatch({
                 type: 'LOGIN',
                 payload: {
                     user,
-                    token
+                    token,
+                    refreshToken
                 }
             })
         }

@@ -2,15 +2,16 @@
 export const loginReducer = (state = {}, action) => {
     switch (action.type) {
         case 'LOGIN':
-            localStorage.setItem('token', action.payload.user.token);
             localStorage.setItem('user', JSON.stringify(action.payload.user));
+            localStorage.setItem('token', action.payload.token);
+            localStorage.setItem('refreshToken', action.payload.refreshToken);
 
             return {
                 ...state,
                 isAuthenticated: true,
                 user: action.payload.user,
-                token: action.payload.user.token,
-                refreshToken: action.payload.user.refreshToken
+                token: action.payload.token,
+                refreshToken: action.payload.refreshToken
             }
             
         case 'LOGOUT':
@@ -39,7 +40,6 @@ export const loginReducer = (state = {}, action) => {
                 ...state,
                 isAuthenticated: false,
                 user: null,
-                role: null,
                 token: null,
                 refreshToken: null
             }

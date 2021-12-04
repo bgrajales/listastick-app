@@ -33,11 +33,6 @@ export const ProfileModal = ({ show, setModal }) => {
             confirmButtonText: 'Yes, log out!'
         }).then((result) => {
             if (result.value) {
-                MySwal.fire(
-                    'Logged out!',
-                    'You have been logged out.',
-                    'success'
-                )
                 dispatch({ type: 'LOGOUT' })
                 setModal('none')
             }

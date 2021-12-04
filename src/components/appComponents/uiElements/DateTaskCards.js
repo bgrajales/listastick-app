@@ -1,11 +1,12 @@
 import React from 'react'
 import { CalendarTaskCard } from './CalendarTaskCard'
+import { addDays, format } from 'date-fns';
 
 export const DateTaskCards = ({ date, todos }) => {
-
+    console.log(date)
     return (
         <div className="calendar__tasksDay">
-            <h1>{date}</h1>
+            <h1>{format(addDays(new Date(date), 1), 'LLLL do yyyy')}</h1>
 
             <div className="calendar__tasksDayCards">
 

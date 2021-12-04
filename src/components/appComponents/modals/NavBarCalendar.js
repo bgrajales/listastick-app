@@ -76,6 +76,7 @@ export const NavBarCalendar = ({ show, setModal }) => {
                     maxDetail="month"
                     minDetail="month"
                     showNeighboringMonth={false}
+                    navigationLabel={({ date }) => format(date, 'MMMM yyyy')}
                     
                     defaultValue={new Date()}
                     tileContent={({ date }) => (handleCalendarDayIndicator( date ))}

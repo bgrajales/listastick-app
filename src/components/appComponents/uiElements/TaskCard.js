@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { MdDone, MdMoreHoriz } from 'react-icons/md'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { IoMdTrash } from 'react-icons/io'
 import { parseISO, toDate } from 'date-fns'
 import Swal from 'sweetalert2'
@@ -9,13 +10,15 @@ import { AuthContext } from '../../../routers/AppRouter'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { changeStatusTask, deleteSelectedTask } from '../../../actions/todos'
 
-export const TaskCard = ({ todo, handleSeeMore }) => {
+export const TaskCard = ({ todo, handleSeeMore, handleDeleted }) => {
 
     const MySwal = withReactContent(Swal)
 
     const [hover, setHover] = useState(false)
     const [completed, setCompleted] = useState(todo.completed)
     const { state: authState } = useContext(AuthContext)
+
+    const [ actionLoading, setActionLoading ] = useState(false)
 
     const handleCardHoverIn = () => {
         setHover(true)
@@ -27,7 +30,8 @@ export const TaskCard = ({ todo, handleSeeMore }) => {
 
     const handleCompletedClick = () => {
 
-        changeStatusTask( todo, authState.token, setCompleted, completed )
+        setActionLoading(true)
+        changeStatusTask( todo, authState.token, setCompleted, completed, setActionLoading )
 
     }
 
@@ -43,7 +47,7 @@ export const TaskCard = ({ todo, handleSeeMore }) => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                deleteSelectedTask( todo, authState.token )
+                deleteSelectedTask( todo, authState.token, handleDeleted )
             }
         }) 
     }
@@ -68,7 +72,11 @@ export const TaskCard = ({ todo, handleSeeMore }) => {
                     overlay={ <Tooltip id="button-tooltip-2" >Mark as Completed</Tooltip> }
                 >
                     <div>
-                        <MdDone className="taskCard__changeStatus app__pointer" onClick={ handleCompletedClick }/>
+                        {
+                            actionLoading 
+                            ? <AiOutlineLoading3Quarters className="taskCard__changeStatus app__pointer app__loadingIcon" /> 
+                            : <MdDone className="taskCard__changeStatus app__pointer" onClick={ handleCompletedClick }/>
+                        }
                     </div>
                 </OverlayTrigger>
 

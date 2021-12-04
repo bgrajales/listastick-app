@@ -12,6 +12,10 @@
     border-radius: 10px 0 0 10px;
     background-color: var(--card-color);
     flex: 1;
+
+    &:focus-visible {
+        outline: none;
+    }
 }
 
 .searchBar__btn {

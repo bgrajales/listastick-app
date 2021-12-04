@@ -3,22 +3,20 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-export const fetchHomeTodos = ( page, filter, order, completed, jwsToken, jwsRefreshToken, dispatch, authDispatcher, navigate ) => {
+export const fetchHomeTodos = ( page, filter, order, completed, search, jwsToken, jwsRefreshToken, dispatch, authDispatcher, navigate ) => {
 
-    axios.get(apiUrl(`todos?page=${page}&filter=${filter}&order=${order}&completed=${completed}`), {
+    axios.get(apiUrl(`todos?page=${page}&filter=${filter}&order=${order}&completed=${completed}&search=${search}`), {
         headers: {
             'Authorization': jwsToken,
             'Content-Type': 'application/json'
         }
     }).then(response => {
-        console.log(response)
         if (response.status === 200) {
             dispatch({ type: 'FETCH_TODOS_SUCCESS', payload: response.data })
         } else {
             dispatch({ type: 'FETCH_TODOS_FAILURE' })
         }
     }).catch(error => {
-        console.log(error)
 
         if (error.response.status === 401) {
             
@@ -36,9 +34,7 @@ export const fetchHomeTodos = ( page, filter, order, completed, jwsToken, jwsRef
                     navigate('/auth/login')
                 }
             }).catch(error => {
-                console.log(error)
                 authDispatcher({ type: 'REFRESH_TOKEN_FAILURE' })
-                localStorage.clear()
                 navigate('/auth/login')
             })
 
@@ -138,7 +134,7 @@ export const fetchCalendarTodos = ( startDate, endDate, jwsToken, dispatch ) => 
 
 }
 
-export const addNewTask = async( data, jwsToken ) => {
+export const addNewTask = async( data, jwsToken, setAddError ) => {
 
     let added
     
@@ -150,7 +146,6 @@ export const addNewTask = async( data, jwsToken ) => {
     await axios.post(apiUrl('todos'), JSON.stringify(data), {
         headers: headers
     }).then(response => {
-        console.log(response)
         if (response.status === 200) {
             added = {
                 status: true
@@ -161,7 +156,10 @@ export const addNewTask = async( data, jwsToken ) => {
             }
         }
     }).catch(error => {
-        console.log(error)
+        setAddError({
+            error: true,
+            message: error.response.data.message
+        })
         added = {
             status: false
         }
@@ -171,7 +169,7 @@ export const addNewTask = async( data, jwsToken ) => {
 
 }
 
-export const changeStatusTask = ( todo, jwsToken, setCompleted, completed ) => {
+export const changeStatusTask = ( todo, jwsToken, setCompleted, completed, setActionLoading ) => {
 
     const headers = {
         'Content-Type': 'application/json',
@@ -185,6 +183,7 @@ export const changeStatusTask = ( todo, jwsToken, setCompleted, completed ) => {
         headers: headers
     }).then(response => {
         console.log(response)
+        setActionLoading(false)
         if (response.status === 200) {
             if (setCompleted) {
                 setCompleted(!completed)
@@ -195,11 +194,12 @@ export const changeStatusTask = ( todo, jwsToken, setCompleted, completed ) => {
         }
     }).catch(error => {
         console.log(error)
+        setActionLoading(false)
     })
 
 }
 
-export const deleteSelectedTask = ( todo, jwsToken ) => {
+export const deleteSelectedTask = ( todo, jwsToken, handleDeleted ) => {
 
     const MySwal = withReactContent(Swal)
 
@@ -214,11 +214,13 @@ export const deleteSelectedTask = ( todo, jwsToken ) => {
         console.log(response)
         if (response.status === 200) {
             MySwal.fire({
+                icon: 'success',
                 title: 'Deleted!',
-                text: 'Your file has been deleted.',
-                type: 'success',
-                confirmButtonText: 'OK'
+                text: 'Your task has been deleted.',
+                showConfirmButton: false,
+                timer: 1500
             })
+            handleDeleted()
         } else {
             console.log('error')
         }

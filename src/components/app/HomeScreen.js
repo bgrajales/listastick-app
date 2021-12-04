@@ -32,7 +32,7 @@ const initialShowTask = {
 
 export const HomeScreen = () => {
 
-    const skeletons = [1,2,3,4,5,6,7,8]
+    const skeletons = [1,2,3,4,5,6,7,8,9,10]
 
     const navigate = useNavigate()
     const { state: authState, dispatch: authDispatcher } = useContext(AuthContext)
@@ -40,12 +40,14 @@ export const HomeScreen = () => {
     const [ searchParams ] = useSearchParams();
 
     const [showTask, setShowTask] = useState(initialShowTask)
+    const [ addOrDelete, setAddOrDelete ] = useState(false)
 
     const page = searchParams.get('page') || 1
     const filter = searchParams.get('filter') || filters.ALL
     const order = searchParams.get('order')
     const completed = searchParams.get('completed') || 'true'
-    
+    const search = searchParams.get('search') || ''
+
     useEffect(() => {
         if (authState.token) {
 
@@ -53,10 +55,10 @@ export const HomeScreen = () => {
                 type: 'FETCH_TODOS_REQUEST',
             })
 
-            fetchHomeTodos( page, filter, order, completed, authState.token, authState.refreshToken, dispatch, authDispatcher )
+            fetchHomeTodos( page, filter, order, completed, search, authState.token, authState.refreshToken, dispatch, authDispatcher, navigate )
             
         }
-    }, [authState.token, authState.refreshToken, authDispatcher, page, filter, order, completed, navigate])
+    }, [authState.token, authState.refreshToken, authDispatcher, page, filter, order, completed, search, navigate, addOrDelete])
 
     
 
@@ -65,6 +67,10 @@ export const HomeScreen = () => {
             todo,
             show: true
         })
+    }
+
+    const handleDeleted = () => {
+        setAddOrDelete(!addOrDelete)
     }
 
     const handleExpandedTaskClose = () => {
@@ -82,14 +88,14 @@ export const HomeScreen = () => {
                 <div className="app__taskSection">
                     {state.isFetching === false && state.todos.length > 0 && 
                             state.todos.map(todo => (
-                                <TaskCard key={todo.id} todo={todo} handleSeeMore={handleSeeMore} />
+                                <TaskCard key={todo.id} todo={todo} handleSeeMore={handleSeeMore} handleDeleted={handleDeleted} />
                             ))
                     }
 
-                    <div className={`app__skeletonsDiv ${!state.isFetching ? '' : 'd-none'}`}>
+                    <div className={`app__skeletonsDiv ${state.isFetching ? '' : 'd-none'}`}>
                     {state.isFetching && 
                         skeletons.map(skeleton => (
-                            <Skeleton key={skeleton} variant="rectangular" animation="wave" height={150} style={{borderRadius: 10}}/>
+                            <Skeleton key={skeleton} variant="rectangular" animation="wave" height={120} style={{borderRadius: 10}}/>
                         ))                    
                     }
                     </div>

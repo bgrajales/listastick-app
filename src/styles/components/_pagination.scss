@@ -17,7 +17,9 @@
     div {
         font-weight: bold;
         font-size: 1.5rem;
-        color: var(--secondaryBtn-color);
+        background-color: var(--navBar-color);
+        color: var(--theme-background-color);
+        border-radius: 100%;
         user-select: none;
         -moz-user-select: none;
         -khtml-user-select: none;
@@ -33,9 +35,7 @@
 
         &:hover {
             cursor: pointer;
-            background-color: var(--theme-text-color);
-            color: var(--theme-background-color);
-            border-radius: 100%;
+            background-color: var(--primary-color);
         }
     }
 }
@@ -55,7 +55,7 @@ li {
     .pagination__pagesNavigation {
 
         ul {
-            bottom: 60px;
+            bottom: 75px;
         }
     }
 }

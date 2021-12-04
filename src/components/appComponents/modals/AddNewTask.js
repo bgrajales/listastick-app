@@ -45,7 +45,7 @@ export const AddNewTask = ({ show, setModal }) => {
         completed: false
       }
 
-      const added = await addNewTask(data, authState.token)
+      const added = await addNewTask(data, authState.token, setAddError)
 
       if(added.status) {
         setAddingState(false)
@@ -59,11 +59,6 @@ export const AddNewTask = ({ show, setModal }) => {
         })
       } else {
         setAddingState(false)
-        setAddError({
-          error: true,
-          message: 'Something went wrong'
-        })
-
       }
         
     }
@@ -78,17 +73,17 @@ export const AddNewTask = ({ show, setModal }) => {
          
             <IoMdClose className="nav__closeModal" onClick={ handleCloseClick }/>
             
-            {
-              addError.error &&
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                  <Alert severity="error">{addError.message}</Alert>
-                </Stack>
-            }
+            
             
 
             <form className="nav__expandedAddTask" onSubmit={ handleAddNewSubmit }>
 
-              
+              {
+                addError.error &&
+                  <Stack sx={{ width: '100%' }} spacing={2}>
+                    <Alert severity="error">{addError.message}</Alert>
+                  </Stack>
+              }
 
               <div className="smallInputDiv">
                 <label className="form-label">Task title</label>

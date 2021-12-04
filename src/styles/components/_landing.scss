@@ -20,7 +20,7 @@
 .landing__section1, .landing__section2 {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 60px;
+    gap: 80px;
     justify-items: center;
     text-align: center;
 }
@@ -51,7 +51,7 @@
 }
 
 .landing__section {
-    margin-bottom: 80px;
+    margin-bottom: 120px;
 }
 
 .landing__devices-img, .landing__imgReview {

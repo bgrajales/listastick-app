@@ -16,15 +16,18 @@ export const RegisterScreen = () => {
 
     const { dispatch } = useContext(AuthContext)
     const navigate = useNavigate()  
-    const [registerError, setRegisterError] = useState(false)
     
+    const [registerError, setRegisterError] = useState(false)
+    const [ loading, setLoading ] = useState({
+      status: false,
+      message: ''
+    })
+
     let data = {
       email: '',
       name: '',
       password: '',
       repeatPassword: '',
-      isSubmitting: false,
-      errorMessage: null
     }
 
     const [ formValues, handleInputChange ] = useForm(data)
@@ -33,20 +36,23 @@ export const RegisterScreen = () => {
       e.preventDefault()
 
       setRegisterError(false)
+      setLoading({
+        status: true,
+        message: ''
+      })
 
       data = ({
         ...formValues,
-        isSubmitting: true,
-        errorMessage: null
       })
       
       const user = {
         name: data.name,
         email: data.email,
-        password: data.password
+        password: data.password,
+        repeatPassword: data.repeatPassword
       }
 
-      userRegister( user, dispatch, navigate, setRegisterError, data )
+      userRegister( user, dispatch, navigate, setRegisterError, setLoading )
 
     }
 
@@ -74,7 +80,7 @@ export const RegisterScreen = () => {
               {
                 registerError &&
                 <Stack sx={{ width: '100%' }} spacing={2}>
-                    <Alert severity="error">Invalid credentials</Alert>
+                    <Alert severity="error">{loading.message}</Alert>
                 </Stack>
               }
               
@@ -129,7 +135,7 @@ export const RegisterScreen = () => {
                         
                 <button className="btn btn-primary btn-block" type="submit">
                   {
-                    data.isSubmitting
+                    loading.status
                     ? <AiOutlineLoading3Quarters className="app__loadingIcon" /> 
                     : 'Register'
                   }

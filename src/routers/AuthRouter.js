@@ -5,6 +5,9 @@ import { RegisterScreen } from "../components/auth/RegisterScreen"
 import { LandingScreen } from "../components/landing/LandingScreen"
 
 export const AuthRouter = () => {
+
+    document.documentElement.setAttribute("data-theme", 'light')
+
     return (
         <>
             <Routes>

@@ -29,11 +29,12 @@ export const StatsScreen = () => {
         }
     }, [authState.token, authState.refreshToken, navigate, dispatch, authDispatcher])
 
+    console.log(state.todos.length)
     return (
         <div className="app__body container stats__body">
 
-        {   (state.todos.length > 0) ?
-            <>
+        {   (state.todos.length > 0) 
+            ?<>
                 <div className="stats__block">
                     <TotalCompletedTasks todos={state.todos}/>
                 </div>
@@ -41,8 +42,15 @@ export const StatsScreen = () => {
                 <div className="stats__block">
                     <ImportanceTasksGraph todos={state.todos} />
                 </div>
-                </>
-            : ''
+            </>
+            :<>
+                 <div className="app__noTasksStats">
+                    <h2>
+                        You have no tasks
+                    </h2>
+                    <p>You don't have any tasks yet. Add one by clicking "+" button on the nav bar.</p>
+                </div>
+            </>
         }
             
             </div>

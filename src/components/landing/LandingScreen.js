@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import landingImages from '../../assets/images/landing/index.js'
 
 export const LandingScreen = () => {
+
     return (
         <div>
             <header className="landing__header container">
@@ -60,7 +61,7 @@ export const LandingScreen = () => {
                 <img src={ landingImages.whiteLogo } alt="" className="landing__footerLogo"/>
 
                 <div className="landing__socialDiv">
-                    <img src={ landingImages.instagram } alt="" />
+                    <img src={ landingImages.instagram } alt="" onClick={ () => { window.location.href = "https://www.instagram.com/listastick.app/" } } />
                 </div>
             </footer>
 
