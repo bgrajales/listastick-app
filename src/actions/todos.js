@@ -229,3 +229,57 @@ export const deleteSelectedTask = ( todo, jwsToken, handleDeleted ) => {
     })
 
 }
+
+export const editTodo = ( todoId, newTodo, jwsToken, setEditState, setEditTask ) => {
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'authorization': jwsToken
+    }
+
+    axios.put(apiUrl(`todos/${todoId}`), JSON.stringify(newTodo), {
+        headers: headers
+    }).then(response => {
+        if (response.status === 200) {
+            // setEditTask(false)
+            setEditState({
+                loading: false,
+                error: ''
+            })
+        } else {
+            setEditState({
+                loading: false,
+                error: response.data.message
+            })
+        }
+    }).catch(error => {
+        setEditState({
+            loading: false,
+            error: 'Something went wrong'
+        })
+    })
+}
+
+// export const getTodoById = ( todoId, jwsToken, setShowTask ) => {
+
+//     const headers = {
+//         'Content-Type': 'application/json',
+//         'authorization': jwsToken
+//     }
+
+//     axios.get( apiUrl(`todos/${todoId}`), {
+//         headers: headers
+//     }).then(response => {
+//         if (response.status === 200) {
+//             console.log(response.data)
+//             return response.data
+//         } else {
+//             return false
+//         }
+//     }).catch(error => {
+//         console.log(error)
+//         return false
+//     })
+
+
+// }
