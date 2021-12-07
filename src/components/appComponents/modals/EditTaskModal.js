@@ -8,7 +8,7 @@ import { useForm } from '../../../hooks/useForm'
 import { editTodo } from '../../../actions/todos'
 import { AuthContext } from '../../../routers/AppRouter'
 
-export const EditTaskModal = ({ todo, setEditTask, handleExpandedTaskClose }) => {
+export const EditTaskModal = ({ todo, setEditTask, handleExpandedTaskClose, setShowTodo, handleDeleted }) => {
 
     const { state: authState } = useContext(AuthContext)
 
@@ -40,7 +40,7 @@ export const EditTaskModal = ({ todo, setEditTask, handleExpandedTaskClose }) =>
             completed: todo.completed
         }
 
-        editTodo( todo.id, newTodo, authState.token, setEditState )
+        editTodo( todo.id, newTodo, authState.token, setEditState, setShowTodo, setEditTask, handleDeleted )
         
     }
 
@@ -91,7 +91,7 @@ export const EditTaskModal = ({ todo, setEditTask, handleExpandedTaskClose }) =>
                             {
                                 editState.loading 
                                 ? <AiOutlineLoading3Quarters className="app__loadingIcon" />
-                                : <>'Save changes' <IoMdCheckmark className="expandedTask__icon"/></>
+                                : <>Save changes  <IoMdCheckmark className="expandedTask__icon"/></>
                             }
                         </button>
                         <button className="btn btn-danger btn-block" onClick={ handleCancelEdit }>

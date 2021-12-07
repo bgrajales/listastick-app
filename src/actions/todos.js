@@ -169,24 +169,37 @@ export const addNewTask = async( data, jwsToken, setAddError ) => {
 
 }
 
-export const changeStatusTask = ( todo, jwsToken, setCompleted, completed, setActionLoading ) => {
+export const changeStatusTask = ( todo, jwsToken, setCompleted, completed, setActionLoading, setShowTodo, handleDeleted ) => {
+
+    const newTodo = {
+        ...todo,
+        completed: !todo.completed
+    }
 
     const headers = {
         'Content-Type': 'application/json',
         authorization: jwsToken
     }
-
-    axios.put(apiUrl(`todos/${todo.id}`), JSON.stringify({
-        ...todo,
-        completed: !todo.completed
-    }), {
+    console.log(todo)
+    axios.put(apiUrl(`todos/${todo.id}`), JSON.stringify(newTodo), {
         headers: headers
     }).then(response => {
         console.log(response)
-        setActionLoading(false)
+        
+        
+        if(setActionLoading) {
+            setActionLoading(false)
+        }
+        
         if (response.status === 200) {
+            if (setShowTodo) {
+                setShowTodo(newTodo)
+            }
             if (setCompleted) {
                 setCompleted(!completed)
+            }
+            if (handleDeleted) {
+                handleDeleted()
             }
             return response
         } else {
@@ -194,7 +207,10 @@ export const changeStatusTask = ( todo, jwsToken, setCompleted, completed, setAc
         }
     }).catch(error => {
         console.log(error)
-        setActionLoading(false)
+
+        if(setActionLoading) {
+            setActionLoading(false)
+        }
     })
 
 }
@@ -220,7 +236,9 @@ export const deleteSelectedTask = ( todo, jwsToken, handleDeleted ) => {
                 showConfirmButton: false,
                 timer: 1500
             })
-            handleDeleted()
+            if (handleDeleted) {
+                handleDeleted()
+            }
         } else {
             console.log('error')
         }
@@ -230,7 +248,7 @@ export const deleteSelectedTask = ( todo, jwsToken, handleDeleted ) => {
 
 }
 
-export const editTodo = ( todoId, newTodo, jwsToken, setEditState, setEditTask ) => {
+export const editTodo = ( todoId, newTodo, jwsToken, setEditState, setShowTodo, setEditTask, handleDeleted ) => {
 
     const headers = {
         'Content-Type': 'application/json',
@@ -241,11 +259,13 @@ export const editTodo = ( todoId, newTodo, jwsToken, setEditState, setEditTask )
         headers: headers
     }).then(response => {
         if (response.status === 200) {
-            // setEditTask(false)
+            setShowTodo(newTodo)
             setEditState({
                 loading: false,
                 error: ''
             })
+            handleDeleted()
+            setEditTask(false)
         } else {
             setEditState({
                 loading: false,

@@ -5,7 +5,6 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 import { AuthContext } from '../../../routers/AppRouter'
-import { ProfileImage } from '../uiElements/ProfileImage'
 import { changeUserSettings } from '../../../actions/users'
 
 
@@ -62,8 +61,6 @@ export const ProfileModal = ({ show, setModal }) => {
             <IoMdClose className="nav__closeModal" onClick={ handleCloseClick }/>
 
             <div className="nav__expandedProfile">
-
-                <ProfileImage />
 
                 <div className="nav__profilePfpAndData">
                 

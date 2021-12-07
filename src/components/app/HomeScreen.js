@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import Skeleton from '@mui/material/Skeleton';
 import DoneIcon from '@mui/icons-material/Done';
@@ -10,8 +10,6 @@ import { TaskCard } from '../appComponents/uiElements/TaskCard'
 import { Pagination } from '../appComponents/uiElements/Pagination'
 import { ExpandedTaskModal } from '../appComponents/modals/ExpandedTaskModal'
 import { fetchHomeTodos } from '../../actions/todos';
-
-export const TodoContext = createContext()
 
 const filters = Object.freeze({
     ALL: 'ALL',
@@ -31,14 +29,12 @@ const initialShowTask = {
 }
 
 export const HomeScreen = () => {
-
     const skeletons = [1,2,3,4,5,6,7,8,9,10]
 
     const navigate = useNavigate()
     const { state: authState, dispatch: authDispatcher } = useContext(AuthContext)
     const [ state, dispatch ] = useReducer(todosReducer, initialState)
     const [ searchParams ] = useSearchParams();
-
     const [showTask, setShowTask] = useState(initialShowTask)
     const [ addOrDelete, setAddOrDelete ] = useState(false)
 
@@ -59,8 +55,6 @@ export const HomeScreen = () => {
             
         }
     }, [authState.token, authState.refreshToken, authDispatcher, page, filter, order, completed, search, navigate, addOrDelete])
-
-    
 
     const handleSeeMore = (todo) => {
         setShowTask({
@@ -122,7 +116,7 @@ export const HomeScreen = () => {
 
                 {
                     showTask.show &&
-                    <ExpandedTaskModal show={showTask.show} todo={ showTask.todo } handleExpandedTaskClose={handleExpandedTaskClose}/>
+                    <ExpandedTaskModal show={showTask.show} todo={ showTask.todo } handleExpandedTaskClose={handleExpandedTaskClose} handleDeleted={handleDeleted}/>
                 }
 
                 <Pagination length={state.total}/>

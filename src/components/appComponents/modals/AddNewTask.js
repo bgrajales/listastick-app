@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { format } from 'date-fns'
+import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Alert from '@mui/material/Alert';
@@ -14,7 +15,8 @@ import { AuthContext } from '../../../routers/AppRouter'
 export const AddNewTask = ({ show, setModal }) => {
 
     const MySwal = withReactContent(Swal)
-
+    const navigate = useNavigate()
+    
     const { state: authState } = useContext(AuthContext)
     const [ addingState, setAddingState ] = useState(false)
     const [ addError, setAddError ] = useState({
@@ -57,6 +59,8 @@ export const AddNewTask = ({ show, setModal }) => {
           showConfirmButton: false,
           timer: 1500
         })
+
+        navigate('/app/home')
       } else {
         setAddingState(false)
       }
@@ -67,15 +71,11 @@ export const AddNewTask = ({ show, setModal }) => {
       setModal('none')
     }
 
-    
     return (
         <div className={`nav__modal animate__animated animate__slideInLeft ${(!show) ? 'd-none' : ''}`}>
          
             <IoMdClose className="nav__closeModal" onClick={ handleCloseClick }/>
-            
-            
-            
-
+        
             <form className="nav__expandedAddTask" onSubmit={ handleAddNewSubmit }>
 
               {
