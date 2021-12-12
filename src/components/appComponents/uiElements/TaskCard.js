@@ -62,7 +62,11 @@ export const TaskCard = ({ todo, handleSeeMore, handleDeleted }) => {
             <IoMdTrash className={`taskCard__trashCan app__pointer ${(!hover) ? 'd-none' : ''}`} onClick={ handleDeleteClick }/>
             <div className="taskCard__textInfo">
                 <h3 className={completed ? `taskCard__completedTitle` : ''}>{todo.title}</h3>
-                <p>{`${todo.description.substring(0, 90)} . . .`}</p>
+                <p>{
+                    todo.description.length > 60 
+                    ? `${todo.description.substring(0, 60)}...`
+                    : todo.description
+                }</p>
             </div>
 
             <div className={`taskCard__hoverDiv ${(!hover) ? 'd-none' : ''}`}>

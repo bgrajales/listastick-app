@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { format } from 'date-fns'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Alert from '@mui/material/Alert';
@@ -16,6 +16,7 @@ export const AddNewTask = ({ show, setModal }) => {
 
     const MySwal = withReactContent(Swal)
     const navigate = useNavigate()
+    const [ searchParams ] = useSearchParams()
     
     const { state: authState } = useContext(AuthContext)
     const [ addingState, setAddingState ] = useState(false)
@@ -60,7 +61,14 @@ export const AddNewTask = ({ show, setModal }) => {
           timer: 1500
         })
 
-        navigate('/app/home')
+        const currentPage = searchParams.get('page')
+
+        if(currentPage) {
+          navigate('/app/home')
+        } else {
+          navigate('/app/home?page=1')
+        }
+        
       } else {
         setAddingState(false)
       }

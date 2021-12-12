@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import icons from '../../../assets/icons/index'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FiSettings } from 'react-icons/fi';
 
 import { AddNewTask } from '../modals/AddNewTask'
 import { NavBarCalendar } from '../modals/NavBarCalendar'
@@ -63,10 +64,11 @@ export const NavBar = () => {
             </div>
 
             <OverlayTrigger placement="right" delay={{ show: 50, hide: 250 }}
-                overlay={ <Tooltip id="button-tooltip-2" className="nav__toolTip">Profile</Tooltip> }
+                overlay={ <Tooltip id="button-tooltip-2" className="nav__toolTip">Settings</Tooltip> }
             >
             <div className="nav__iconAndText" onClick={ handleProfileClick }>
-                <img className="nav__pfp" src={ icons.pfp } alt="Profile" />
+                {/* <img className="nav__pfp" src={ icons.pfp } alt="Profile" /> */}
+                <FiSettings style={{ width: "50%", height: "100%", color: "white" }}/>
             </div>
             </OverlayTrigger>
 

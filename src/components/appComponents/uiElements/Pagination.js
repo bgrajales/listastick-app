@@ -33,18 +33,26 @@ export const Pagination = ({length}) => {
     if (maxPage > 1) { 
       return (
         <div className="pagination__pagesNavigation">
-            <ul className="pagination__ul">
-                <li className={`pagination__pageItem`}>
-                  <div className="pagination__pageLink" aria-label="Previous" onClick={ handlePrevPage }>
-                    <span aria-hidden="true">«</span>
-                  </div>
-                </li>
+            <ul className={`pagination__ul ${ parseInt(currentPage) === 1 ? 'pagination__floatRight' : '' }`}>
+                {
+                  parseInt(currentPage) !== 1 &&
+                  <li className={`pagination__pageItem`}>
+                    <div className="pagination__pageLink" aria-label="Previous" onClick={ handlePrevPage }>
+                      <span aria-hidden="true">«</span>
+                    </div>
+                  </li>
+                }
+                
 
-                <li className={`pagination__pageItem`}>
-                  <div className="pagination__pageLink" aria-label="Next" onClick={ handleNextPage }>
-                    <span aria-hidden="true">»</span>
-                  </div>
-                </li> 
+                {
+                  parseInt(currentPage) !== parseInt(maxPage) &&
+                  <li className={`pagination__pageItem`}>
+                    <div className="pagination__pageLink" aria-label="Next" onClick={ handleNextPage }>
+                      <span aria-hidden="true">»</span>
+                    </div>
+                  </li>
+                }
+                 
               
             </ul>
         </div>
